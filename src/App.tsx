@@ -1,25 +1,30 @@
-import React from 'react';
+import React, { useReducer, createContext, useEffect, useContext, useRef } from "react";
 import logo from './logo.svg';
+import toast, { Toaster } from "react-hot-toast";
+import Cursor from "./components/Cursor/Cursor";
 import './App.scss';
+
+export const store = createContext<any>(null);
+
+// Create store provider to wrap subcomponents in
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div
+        className="App"
+        // onClick={hideContextMenu}
+        // onMouseMove={(e) => setCursorLocation(e)}
+        // onScroll={(e) => setCursorLocation(e)}
+        // onMouseDown={(e) => setCursorAppearance(e)}
+        // onMouseUp={(e) => setCursorAppearance(e)}
+        // onContextMenu={(e) => toggleContextMenu(e)}
+      >
+        <Toaster />
+        <Cursor />
+        <Navbar />
+       
+      </div>
+    
   );
 }
 
