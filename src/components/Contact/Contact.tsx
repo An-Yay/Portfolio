@@ -58,7 +58,7 @@ export default function Contact() {
         viewport={{ once: true }}
       >
         {state.language === "english"
-          ? "React out to me"
+          ? "Reach out to me"
           : "Reach out to me"}
       </motion.h1>
 
