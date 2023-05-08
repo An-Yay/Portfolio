@@ -52,7 +52,7 @@ export default function Resume() {
               : "Should you still have any questions, feel free to contact me. Additionally, you can download my resume below."}
           </p>
           <a
-            download="cv_gianlucajahn.pdf"
+            download="ananay_resume.pdf"
             href={require("../../assets/documents/ananay_resume.pdf")}
           >
             <button
