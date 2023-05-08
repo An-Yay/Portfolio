@@ -1,6 +1,7 @@
 import React, { useReducer, createContext, useEffect, useContext, useRef } from "react";
 import logo from './logo.svg';
 import toast, { Toaster } from "react-hot-toast";
+import Navbar from "./components/Navbar/Navbar";
 import Cursor from "./components/Cursor/Cursor";
 import './App.scss';
 
@@ -20,6 +21,7 @@ function App() {
         // onContextMenu={(e) => toggleContextMenu(e)}
       >
         <Toaster />
+        
         <Cursor />
         <Navbar />
        

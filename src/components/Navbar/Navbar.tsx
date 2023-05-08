@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import "./NavBar.scss";
+import "./Navbar.scss";
 import { motion } from "framer-motion";
 import { store } from "../../App";
-import scroll from "../../utils/helpers/scroll";
-import playAudio from "../../utils/helpers/playAudio";
+import scroll from "../../utils/Helpers/scroll";
+import playAudio from "../../utils/Helpers/playAudio";
 
 export default function NavBar() {
   const [state, dispatch] = useContext(store);
@@ -20,6 +20,7 @@ export default function NavBar() {
         src={require("../../assets/images/icon.jpg")}
         onMouseDown={playAudio}
         onMouseUp={playAudio}
+        alt="icon"
       />
       <h3
         className={`first ${state.darkmode ? "dark-anchor" : "light-anchor"}`}
@@ -27,7 +28,7 @@ export default function NavBar() {
         onMouseDown={playAudio}
         onMouseUp={playAudio}
       >
-        {state.language === "english" ? "Über mich" : "About Me"}
+        {state.language === "english" ? "About Me" : "About Me"}
       </h3>
       <h3
         className={`${state.darkmode ? "dark-anchor" : "light-anchor"}`}
@@ -51,7 +52,7 @@ export default function NavBar() {
         onMouseDown={playAudio}
         onMouseUp={playAudio}
       >
-        {state.language === "english" ? "Lebenslauf" : "Resume"}
+        {state.language === "english" ? "Resume" : "Resume"}
       </h3>
       <button
         className="btn-nav"
@@ -60,7 +61,7 @@ export default function NavBar() {
         onMouseDown={playAudio}
         onMouseUp={playAudio}
       >
-        {state.language === "english" ? "Kontakt" : "Contact"}
+        {state.language === "english" ? "Contact" : "Contact"}
       </button>
     </motion.nav>
   );
