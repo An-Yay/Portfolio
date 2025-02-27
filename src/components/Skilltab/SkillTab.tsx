@@ -21,7 +21,7 @@ export default function SkillTab(props: SkillTabProps) {
       viewport={{ once: true }}
       transition={{ duration: 0.6, type: "spring", bounce: 0.4, delay: topic === "libraries" ? 0.35 : topic === "prototyping" ? 0.35 : topic === "code" ? 0.65 : 0.05 }}
     >
-      <h3 className={`head ${state.darkmode ? "white" : ""}`}>{returnTabName(topic, state.language)}</h3>
+      <h3 className={`head ${state.darkmode ? "white" : ""}`}>{returnTabName(topic)}</h3>
       {topic === "languages" ? (
         <div className="skill-tab-list languages">
           <Image source="typescript" name="TypeScript" />

@@ -25,12 +25,10 @@ export default function ThemeButton() {
       onClick={toggleSound}
     >
       {state.darkmode ? <SoundOff className="light-icon" /> : <Sound className="dark-icon" />}
-      <h4>{state.language === "english"
-        ? state.darkmode
+      <h4>{ state.darkmode
           ? "Turn on lights"
-          : "Turn off lights1. Platz"
-        : state.darkmode
-        ? "Turn on lights"
+          
+        
         : "Turn off lights"}</h4>
     </motion.button>
   );

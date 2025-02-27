@@ -16,7 +16,7 @@ export default function ContactForm() {
     e.preventDefault();
 
     toast.success(
-      state.language === "english" ? "Message sent!" : "Message sent!",
+      "Message sent!" ,
       {
         position: "top-left",
         style: {
@@ -71,7 +71,7 @@ export default function ContactForm() {
           className={`field data ${state.darkmode ? "dark-field" : "light-field"}`}
           type="text"
           name="user_name"
-          placeholder={state.language === "english" ? "Your name" : "Your name"}
+          placeholder={"Your name"}
           required
         />
         <input
@@ -80,9 +80,8 @@ export default function ContactForm() {
           type="email"
           name="user_email"
           placeholder={
-            state.language === "english"
-              ? "Your email address"
-              : "Your email address"
+            
+               "Your email address"
           }
           required
         />
@@ -91,16 +90,15 @@ export default function ContactForm() {
         ref={input3}
         name="message"
         placeholder={
-          state.language === "english"
-            ? "Your message for me"
-            : "Your message for me"
+          
+            "Your message for me"
         }
         className={`field ${state.darkmode ? "dark-field" : "light-field"}`}
         required
       />
       <input
         type="submit"
-        value={state.language === "english" ? "Submit" : "Submit"}
+        value={"Submit"}
         className="submit"
         onMouseDown={playAudio}
         onMouseUp={playAudio}

@@ -14,7 +14,7 @@ export default function ContextMenu() {
 
   const copyEmail = () => {
     navigator.clipboard.writeText("ananaygupta23@gmail.com");
-    toast(state.language === "english" ? "Copied E-Mail" : "Copied E-Mail!", {
+    toast( "Copied E-Mail" , {
       icon: "📧",
       position: "top-left",
       style: {
@@ -33,7 +33,7 @@ export default function ContextMenu() {
 
   const copyURL = () => {
     navigator.clipboard.writeText("https://twitter.com/_An_yay");
-    toast(state.language === "english" ? "Copied URL" : "Copied URL!", {
+    toast("Copied URL" , {
       icon: "🌐",
       position: "top-left",
       style: {
@@ -65,7 +65,7 @@ export default function ContextMenu() {
       >
         <div className="context-menu-item">
           <SourceCode className="context-icon" />
-          <h3>{state.language === "english" ? "Source Code" : "Source Code"}</h3>
+          <h3>{"Source Code"}</h3>
         </div>
       </a>
 
@@ -78,7 +78,7 @@ export default function ContextMenu() {
         <div className="context-menu-item">
           <GitHub className="context-icon" />
           <h3>
-            {state.language === "english" ? "Github Profile" : "GitHub Profile"}
+            {"Github Profile" }
           </h3>
         </div>
       </a>
@@ -92,9 +92,8 @@ export default function ContextMenu() {
         <div className="context-menu-item">
           <LinkedIn className="context-icon linkedin" />
           <h3>
-            {state.language === "english"
-              ? "LinkedIn Profile"
-              : "LinkedIn Profile"}
+            {"LinkedIn Profile"
+              }
           </h3>
         </div>
       </a>

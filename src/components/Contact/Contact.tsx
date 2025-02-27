@@ -15,7 +15,7 @@ export default function Contact() {
 
   const copyEmail = () => {
     navigator.clipboard.writeText("ananaygupta23@gmail.com");
-    toast(state.language === "english" ? "Copied E-Mail" : "Copied E-Mail!", {
+    toast("Copied E-Mail" , {
       icon: "📧",
       position: "top-left",
       style: {
@@ -47,7 +47,7 @@ export default function Contact() {
         whileInView={{ y: 0 }}
         viewport={{ once: true }}
       >
-        {state.language === "english" ? "Contact" : "Contact"}
+        {"Contact"}
       </motion.h3>
       <motion.h1
         className={`heading ${

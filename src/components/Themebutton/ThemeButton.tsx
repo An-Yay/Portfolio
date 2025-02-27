@@ -28,12 +28,10 @@ export default function ThemeButton() {
       onMouseUp={playAudio}
     >
       {state.darkmode ? <Light className="light-icon" /> : <Dark className="dark-icon" />}
-      <h4>{state.language === "english"
-        ? state.darkmode
+      <h4>{ state.darkmode
           ? "Turn on lights"
-          : "Turn off lights"
-        : state.darkmode
-        ? "Turn on lights"
+          
+        
         : "Turn off lights"}</h4>
     </motion.button>
   );

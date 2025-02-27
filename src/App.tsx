@@ -2,7 +2,7 @@ import React, { useReducer, createContext, useEffect, useContext, useRef } from 
 import "./App.scss";
 import NavBar from "./components/Navbar/Navbar";
 import Hero from "./components/Hero/Hero";
-import LanguageSwitch from "./components/Languageswitch/LanguageSwitch";
+
 import setCursorLocation from "./utils/Helpers/setCursorLocation";
 import Cursor from "./components/Cursor/Cursor";
 import setCursorAppearance from "./utils/Helpers/setCursorAppearance";

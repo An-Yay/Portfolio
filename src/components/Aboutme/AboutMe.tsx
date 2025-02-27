@@ -16,12 +16,12 @@ export default function AboutMe () {
         initial={{ opacity: 0, y: 150 }}
         viewport={{ once: true }}
         whileInView={{ opacity: 1, y: 0 }}
-      >{state.language === "english" ? "About Me" : "About Me"}</motion.h3>
+      >{"About Me" }</motion.h3> 
       <motion.h1 className={`heading start ${state.darkmode ? "dark-heading" : "light-heading"}`}
         initial={{ opacity: 0, y: 150 }}
         viewport={{ once: true }}
         whileInView={{ opacity: 1, y: 0 }}
-      >{state.language === "english" ? "My Tech Stack and Expertise" : "My tech stack and expertise."}</motion.h1>
+      >{"My Tech Stack and Expertise" }</motion.h1>
 
       <IntroCards />
       <Showcase />

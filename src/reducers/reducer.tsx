@@ -4,9 +4,8 @@ const reducer = (state = sampleStore, action: any) => {
   switch (action.type) {
     case "language/SET":
       let returnedState: any;
-      state.language === "english"
-        ? (returnedState = { ...state, language: "german" })
-        : (returnedState = { ...state, language: "english" });
+      
+         (returnedState = { ...state, language: "english" });
       return returnedState;
     case "language/INIT":
       const loadedLang = {
