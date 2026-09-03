@@ -1,0 +1,66 @@
+@use "../../styles/mixins" as m;
+
+.worked-with {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-1);
+  flex-wrap: wrap;
+}
+
+.worked-with__label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+.worked-with__logos {
+  @include m.focusable;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  border-radius: var(--r-pill);
+  padding: 2px;
+}
+
+.worked-with__logo {
+  display: block;
+  line-height: 0;
+
+  /* Downsize + de-emphasise CompanyMark for this compact strip context —
+     the base component is tuned for the 44px Experience-card logo slot. */
+  .company-mark {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    filter: grayscale(1) opacity(0.55);
+    transition: filter var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  .company-mark--fallback {
+    width: 22px;
+    height: 22px;
+    font-size: var(--fs-2xs);
+    border-radius: var(--r-xs);
+    background: var(--bg-inset);
+    filter: none;
+    opacity: 0.75;
+  }
+}
+
+/* Brighten every logo together when the strip is hovered/focused — reads
+   as "this whole thing is one clickable unit" rather than per-icon hovers. */
+.worked-with__logos:hover .company-mark,
+.worked-with__logos:focus-visible .company-mark {
+  filter: grayscale(0) opacity(1);
+}
+
+.worked-with__logos:hover .company-mark--fallback,
+.worked-with__logos:focus-visible .company-mark--fallback {
+  opacity: 1;
+}

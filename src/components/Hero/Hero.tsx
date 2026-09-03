@@ -15,6 +15,7 @@ import scrollToSection from "../../utils/scrollToSection";
 import { pick, rise, riseChild, scaleIn, stagger } from "../../utils/motion";
 import Spotlight from "../ui/Spotlight";
 import HeroPulse from "./HeroPulse";
+import WorkedWith from "./WorkedWith";
 import "./Hero.scss";
 
 const avatarSrc = require(`../../assets/images/${profile.avatar}.png`);
@@ -145,6 +146,8 @@ export default function Hero() {
             Get in touch
           </a>
         </motion.div>
+
+        <WorkedWith reduced={reduced} />
 
         <motion.ul className="hero__socials" variants={pick(riseChild, reduced)}>
           {socials.map((social) => (
