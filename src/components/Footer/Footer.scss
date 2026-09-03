@@ -1,0 +1,80 @@
+@use "../../styles/mixins" as m;
+
+.footer {
+  padding-block: var(--sp-16) var(--sp-8);
+  background: var(--bg-base);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.footer__inner {
+  display: grid;
+  gap: var(--sp-8);
+
+  @include m.above(md) {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: var(--sp-6);
+  }
+}
+
+.footer__name {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+}
+
+.footer__role {
+  margin-top: 2px;
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+}
+
+.footer__nav ul,
+.footer__socials {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.footer__link {
+  @include m.focusable;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  text-align: left;
+  transition: color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-top: var(--sp-12);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--fs-2xs);
+  color: var(--text-tertiary);
+}
+
+.footer__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  kbd {
+    font-family: var(--font-sans);
+    min-width: 17px;
+    padding: 1px 4px;
+    text-align: center;
+    border-radius: 4px;
+    background: var(--bg-inset);
+    border: 1px solid var(--border-subtle);
+  }
+
+  @include m.below(sm) {
+    display: none;
+  }
+}
