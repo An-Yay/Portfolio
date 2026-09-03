@@ -1,65 +1,57 @@
-import React, { useReducer, createContext, useEffect, useContext, useRef } from "react";
-import "./App.scss";
-import NavBar from "./components/Navbar/Navbar";
+import React from "react";
+import { Toaster } from "react-hot-toast";
+import { AppProvider } from "./store/AppContext";
+import Navbar from "./components/Navbar/Navbar";
 import Hero from "./components/Hero/Hero";
-
-import setCursorLocation from "./utils/Helpers/setCursorLocation";
-import Cursor from "./components/Cursor/Cursor";
-import setCursorAppearance from "./utils/Helpers/setCursorAppearance";
-import reducer from "./reducers/reducer";
-import sampleStore from "./utils/Sample/sampleStore";
-import Manifest from "./components/Manifest/Manifest";
-import AboutMe from "./components/Aboutme/AboutMe";
-import Projects from "./components/Projects/Projects";
-import Resume from "./components/Resume/Resume";
+import About from "./components/About/About";
+import Experience from "./components/Experience/Experience";
+import Work from "./components/Work/Work";
 import Skills from "./components/Skills/Skills";
-import ContextMenu from "./components/Contextmenu/ContextMenu";
-import toggleContextMenu from "./utils/Helpers/toggleContextMenu";
-import hideContextMenu from "./utils/Helpers/hideContextMenu";
-import toast, { Toaster } from "react-hot-toast";
+import Live from "./components/Live/Live";
 import Contact from "./components/Contact/Contact";
-import ThemeButton from "./components/Themebutton/ThemeButton";
-import clickSound from "./assets/audio/click.mp3";
-import playAudio from "./utils/Helpers/playAudio";
+import Footer from "./components/Footer/Footer";
+import CommandPalette from "./components/CommandPalette/CommandPalette";
+import ContextMenu from "./components/ContextMenu/ContextMenu";
+import ThemeToggle from "./components/ThemeToggle/ThemeToggle";
+import Cursor from "./components/Cursor/Cursor";
+import ScrollProgress from "./components/ui/ScrollProgress";
+import AmbientBackground from "./components/ui/AmbientBackground";
+import "./styles/global.scss";
 
-// Create store (redux naming convention)
-export const store = createContext<any>(null);
-
-// Create store provider to wrap subcomponents in
-const StoreProvider = ({ children }: any) => (
-  <store.Provider value={useReducer(reducer, sampleStore)}>
-    {children}
-  </store.Provider>
-);
-
-function App() {
+export default function App() {
   return (
-    <StoreProvider>
-      <div
-        className="App"
-        onClick={hideContextMenu}
-        onMouseMove={(e) => setCursorLocation(e)}
-        onScroll={(e) => setCursorLocation(e)}
-        onMouseDown={(e) => setCursorAppearance(e)}
-        onMouseUp={(e) => setCursorAppearance(e)}
-        onContextMenu={(e) => toggleContextMenu(e)}
-      >
-        <Toaster />
-        <Cursor />
-        <NavBar />
-        <ThemeButton />
-        {/* <LanguageSwitch /> */}
-        <ContextMenu />
+    <AppProvider>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+
+      <AmbientBackground />
+      <ScrollProgress />
+      <Cursor />
+      <Navbar />
+      <CommandPalette />
+      <ContextMenu />
+      <ThemeToggle />
+
+      <main id="main">
         <Hero />
-        <Manifest />
-        <AboutMe />
-        <Projects />
+        <About />
+        <Experience />
+        <Work />
         <Skills />
-        <Resume />
+        <Live />
         <Contact />
-      </div>
-    </StoreProvider>
+      </main>
+
+      <Footer />
+
+      <div className="grain" aria-hidden="true" />
+
+      <Toaster
+        position="bottom-center"
+        toastOptions={{ duration: 3200 }}
+        containerStyle={{ zIndex: 600 }}
+      />
+    </AppProvider>
   );
 }
-
-export default App;
