@@ -1,70 +1,75 @@
+@use "../../styles/mixins" as m;
+
+.context-menu__catch {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+}
+
 .context-menu {
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      z-index: 50;
-      padding: 10px 12px;
-      border: none;
-      border-radius: 20px;
-      backdrop-filter: blur(6px);
-      gap: 7px;
-      visibility: hidden;
-  
-      a {
-          text-decoration: none;
-          color: black;
-      }
-  
-      .context-menu-item {
-          display: flex;
-          align-items: center;
-          gap: 11px;
-          padding: 8px 16px 9px 16px;
-          background-color: white;
-          border-radius: 12px;
-          transition: 0.2s scale, 0.2s background-color, 0.2s transform;
-  
-          &:active {
-              transform: scale(0.95);
-          }
-  
-          &:hover {
-              background-color: #0064ff;
-              scale: 1.07;
-  
-              .context-icon {
-                  fill: white;
-              }
-  
-              h3 {
-                  color: white;
-              }
-          }
-  
-          .context-icon {
-              width: 20px;
-              fill: black;
-              transition: 0.2s fill;
-          }
-  
-          .linkedin {
-              height: 17px;
-              margin-bottom: 1px;
-          }
-  
-          .share {
-              height: 21px;
-          }
-  
-          .mail {
-              height: 15px;
-          }
-  
-          h3 {
-              font-family: "Inter", sans-serif;
-              letter-spacing: -0.025em;
-              font-size: 16px;
-              transition: 0.2s color;
-          }
-      }
-  }   
+  position: fixed;
+  z-index: var(--z-modal);
+  width: 220px;
+  padding: var(--sp-2);
+  border-radius: var(--r-md);
+  background: var(--glass-bg);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  box-shadow: var(--shadow-xl), var(--shadow-ring);
+  transform-origin: top left;
+}
+
+.context-menu__label {
+  @include m.eyebrow;
+  font-size: var(--fs-2xs);
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+}
+
+.context-menu__item {
+  @include m.focusable(-2px);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--text-secondary);
+  text-align: left;
+  transition: background-color var(--dur-instant) linear,
+    color var(--dur-instant) linear;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--accent-wash);
+    color: var(--text-primary);
+  }
+
+  &:hover .context-menu__icon,
+  &:focus-visible .context-menu__icon {
+    color: var(--accent);
+  }
+}
+
+.context-menu__icon {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  transition: color var(--dur-instant) linear;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.context-menu__divider {
+  height: 1px;
+  margin: var(--sp-2) var(--sp-2);
+  background: var(--border-subtle);
+}
