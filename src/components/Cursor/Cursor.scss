@@ -1,42 +1,100 @@
-#cursor {
+/* Hide the native cursor only while the custom one is actually mounted */
+body.has-custom-cursor {
+  @media (hover: hover) and (pointer: fine) {
+    cursor: none;
+
+    a,
+    button,
+    [role="button"],
+    input,
+    textarea,
+    select {
+      cursor: none;
+    }
+  }
+}
+
+.cursor-root {
   position: fixed;
-  top: 10px;
-  left: 10px;
-  width: 22px;
-  height: 22px;
-  border: none;
+  inset: 0;
+  z-index: var(--z-cursor);
   pointer-events: none;
+
+  body.cursor-hidden & {
+    opacity: 0;
+  }
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
   border-radius: 50%;
-  z-index: 60;
-  transition: width 0.225s, height 0.225s, background-color 0.225s;
+  background: var(--text-primary);
 }
 
-#cursor::after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  width: 30px;
-  height: 30px;
-  border: 1px solid #fff;
+.cursor-ring {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
   border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  transition: width var(--dur-normal) var(--ease-out),
+    height var(--dur-normal) var(--ease-out),
+    margin var(--dur-normal) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
 }
 
-.light-cursor {
-  background-color: rgba(0, 0, 0, 0.175);
+.cursor-ring--hover {
+  width: 46px;
+  height: 46px;
+  margin: -23px 0 0 -23px;
+  background: var(--accent-wash);
+  border-color: var(--accent);
 }
 
-.dark-cursor {
-  background-color: rgba(255, 255, 255, 0.1);
+.cursor-ring--down {
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  background: var(--accent-wash);
+  border-color: var(--accent);
 }
 
-.click {
-  width: 19px !important;
-  height: 19px !important;
-  background-color: rgba(0, 0, 0, 0.4) !important;
+.cursor-ring--labelled {
+  width: auto;
+  height: auto;
+  min-width: 56px;
+  margin: -16px 0 0 -28px;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+  background: var(--text-primary);
+  border-color: var(--text-primary);
 }
 
-.disappear {
-  background-color: transparent !important;
+.cursor-ring__label {
+  font-size: 11px;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.01em;
+  color: var(--bg-base);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-ring {
+    transition: none;
+  }
 }
