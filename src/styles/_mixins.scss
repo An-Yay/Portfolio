@@ -1,0 +1,168 @@
+    // ============================================================
+//  Mixins & shared breakpoints
+//  Mobile-first. Use `respond-above` by default.
+// ============================================================
+
+$bp: (
+  xs: 480px,
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  xxl: 1536px,
+);
+
+@mixin above($name) {
+  @if map-has-key($bp, $name) {
+    @media (min-width: map-get($bp, $name)) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint `#{$name}`.";
+  }
+}
+
+@mixin below($name) {
+  @if map-has-key($bp, $name) {
+    @media (max-width: (map-get($bp, $name) - 1px)) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint `#{$name}`.";
+  }
+}
+
+// Centred content column. Replaces the old percentage margin-left approach.
+@mixin container($max: var(--container-max)) {
+  width: 100%;
+  max-width: $max;
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+// Full-bleed section shell
+@mixin section {
+  width: 100%;
+  padding-block: var(--section-pad-y);
+  position: relative;
+}
+
+// Frosted material surface
+@mixin glass($blur: var(--glass-blur)) {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur($blur) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur($blur) saturate(var(--glass-saturate));
+}
+
+// Card surface
+@mixin card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+// Accessible focus ring. Applied via :focus-visible only.
+@mixin focus-ring($offset: 3px) {
+  outline: 2px solid var(--accent);
+  outline-offset: $offset;
+  border-radius: var(--r-xs);
+}
+
+@mixin focusable($offset: 3px) {
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring($offset);
+  }
+}
+
+// Visually hidden but available to screen readers
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Truncate to n lines
+@mixin clamp-lines($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Respect reduced-motion
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+@mixin motion-reduce {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+// Type presets
+@mixin display {
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+  font-weight: var(--fw-semibold);
+}
+
+@mixin heading-1 {
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+  font-weight: var(--fw-semibold);
+}
+
+@mixin heading-2 {
+  font-size: var(--fs-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  font-weight: var(--fw-semibold);
+}
+
+@mixin heading-3 {
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+  font-weight: var(--fw-semibold);
+}
+
+@mixin eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  // Tertiary is too faint for a label; secondary reads better as an accent.
+  color: var(--text-secondary);
+}
+
+// Tabular monospace for numbers, dates, and metrics.
+@mixin numeric {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+@mixin body {
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  letter-spacing: var(--tracking-normal);
+  color: var(--text-secondary);
+}

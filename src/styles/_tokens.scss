@@ -1,0 +1,199 @@
+// ============================================================
+//  Design Tokens
+//  Single source of truth for colour, type, space, motion.
+//  Dark mode is driven by [data-theme="dark"] on <html>.
+// ============================================================
+
+:root {
+  // ---- Palette (raw) ----
+  --c-white: #ffffff;
+  --c-black: #000000;
+
+  // Neutral ramp, warmed toward slate for a more editorial feel than pure grey.
+  --c-grey-50: #fafafa;
+  --c-grey-100: #f4f4f6;
+  --c-grey-200: #e7e7ea;
+  --c-grey-300: #d1d1d6;
+  --c-grey-400: #9c9ca5;
+  --c-grey-500: #71717a;
+  --c-grey-600: #52525b;
+  --c-grey-700: #3f3f46;
+  --c-grey-800: #1c1c22;
+  --c-grey-900: #141418;
+  --c-grey-950: #0b0b0f;
+
+  --c-blue: #2563eb;
+  --c-blue-soft: #60a5fa;
+  --c-indigo: #4f46e5;
+  --c-violet: #7c3aed;
+  --c-purple: #8b5cf6;
+  --c-green: #16a34a;
+  --c-teal: #0d9488;
+  --c-amber: #d97706;
+  --c-orange: #ea580c;
+  --c-red: #dc2626;
+
+  // ---- Semantic: light (default) ----
+  --bg-base: var(--c-white);
+  --bg-subtle: var(--c-grey-100);
+  --bg-elevated: var(--c-white);
+  --bg-sunken: var(--c-grey-50);
+  --bg-inset: rgba(0, 0, 0, 0.04);
+
+  --text-primary: var(--c-grey-800);
+  // Darkened from grey-600/500 — the old values sat around 3:1 on white,
+  // below the WCAG AA 4.5:1 threshold for body text.
+  --text-secondary: #494951;
+  --text-tertiary: #6b6b72;
+  --text-inverse: var(--c-white);
+
+  --border-subtle: var(--c-grey-200);
+  --border-default: var(--c-grey-300);
+  --border-strong: var(--c-grey-400);
+
+  --accent: var(--c-indigo);
+  --accent-hover: #4338ca;
+  --accent-contrast: var(--c-white);
+  --accent-wash: rgba(79, 70, 229, 0.09);
+
+  // End stop for the hero gradient — deeper on light so it stays readable.
+  --gradient-end: #0d9488;
+
+  // Glass / material surfaces
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-blur: 20px;
+  --glass-saturate: 180%;
+  --glass-highlight: rgba(255, 255, 255, 0.9);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 24px 72px rgba(0, 0, 0, 0.16);
+  --shadow-ring: 0 0 0 1px rgba(0, 0, 0, 0.06);
+
+  // ---- Typography ----
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, monospace;
+
+  // Fluid type scale (clamp: min, preferred, max)
+  --fs-display: clamp(2.75rem, 1.6rem + 5.75vw, 5.75rem);
+  --fs-h1: clamp(2.25rem, 1.4rem + 4.25vw, 4.5rem);
+  --fs-h2: clamp(1.75rem, 1.25rem + 2.5vw, 3rem);
+  --fs-h3: clamp(1.375rem, 1.1rem + 1.375vw, 2rem);
+  --fs-h4: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);
+  --fs-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --fs-body: 1rem;
+  --fs-sm: 0.9375rem;
+  --fs-xs: 0.8125rem;
+  --fs-2xs: 0.75rem;
+
+  --lh-tight: 1.06;
+  --lh-snug: 1.2;
+  --lh-normal: 1.5;
+  --lh-relaxed: 1.65;
+
+  --tracking-display: -0.045em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: -0.011em;
+  --tracking-wide: 0.02em;
+  --tracking-caps: 0.08em;
+
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-heavy: 800;
+
+  // ---- Space (4px base) ----
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.25rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-10: 2.5rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-20: 5rem;
+  --sp-24: 6rem;
+  --sp-32: 8rem;
+  --sp-40: 10rem;
+
+  --section-pad-y: clamp(4rem, 10vw, 9rem);
+  --container-max: 1200px;
+  --container-narrow: 760px;
+  --container-pad: clamp(1.25rem, 5vw, 3rem);
+
+  // ---- Radii ----
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-2xl: 36px;
+  --r-pill: 999px;
+
+  // ---- Motion ----
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --dur-instant: 90ms;
+  --dur-fast: 160ms;
+  --dur-normal: 260ms;
+  --dur-slow: 420ms;
+  --dur-slower: 640ms;
+
+  // ---- Layers ----
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-nav: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-cursor: 9999;
+}
+
+// ============================================================
+//  Dark theme
+// ============================================================
+[data-theme="dark"] {
+  --bg-base: var(--c-grey-950);
+  --bg-subtle: var(--c-grey-900);
+  --bg-elevated: #161618;
+  --bg-sunken: var(--c-black);
+  --bg-inset: rgba(255, 255, 255, 0.05);
+
+  --text-primary: #f5f5f7;
+  --text-secondary: rgba(245, 245, 247, 0.76);
+  --text-tertiary: rgba(245, 245, 247, 0.56);
+  --text-inverse: var(--c-grey-900);
+
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-default: rgba(255, 255, 255, 0.16);
+  --border-strong: rgba(255, 255, 255, 0.26);
+
+  --accent: #818cf8;
+  --accent-hover: #a5b4fc;
+  --accent-contrast: var(--c-grey-950);
+  --accent-wash: rgba(129, 140, 248, 0.16);
+
+  --gradient-end: #2dd4bf;
+
+  --glass-bg: rgba(22, 22, 24, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-highlight: rgba(255, 255, 255, 0.14);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 24px 72px rgba(0, 0, 0, 0.7);
+  --shadow-ring: 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
