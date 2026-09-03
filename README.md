@@ -1,46 +1,84 @@
-# Getting Started with Create React App
+# Portfolio — Ananay Gupta
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personal site. React 18 + TypeScript + SCSS, animated with Framer Motion.
 
-## Available Scripts
+## Running locally
 
-In the project directory, you can run:
+```bash
+npm install
+cp .env.example .env.local   # then fill in your EmailJS values
+npm start                    # http://localhost:3000
+npm run build                # production bundle in ./build
+```
 
-### `npm start`
+## Architecture
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Content is data-driven. To change what the site says, edit files in `src/data` — you should rarely need to touch a component.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+src/
+  data/            Content. Edit these to update the site.
+    profile.ts       Name, bio, socials, education, awards, headline stats
+    experience.ts    Work history — drives the Experience timeline
+    projects.ts      Case studies (problem / approach / outcome)
+    skills.ts        Grouped tech with proficiency levels
+    navigation.ts    Nav items and section ids
+  styles/
+    _tokens.scss     Design tokens. Dark mode lives here, keyed off [data-theme]
+    _mixins.scss     Breakpoints, type presets, focus rings, glass/card surfaces
+    global.scss      Reset, base elements, utilities
+  store/
+    AppContext.tsx   Theme, sound, palette/menu state. Persists to localStorage.
+  hooks/             useSound, useActiveSection, useReducedMotion
+  utils/             motion presets, scrollToSection, logo resolution
+  components/
+    ui/              Shared primitives (SectionHeader, TechIcon, Spotlight, …)
+```
 
-### `npm test`
+### Theming
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Dark mode is a single `data-theme` attribute on `<html>`. Components never
+branch on theme — they consume semantic CSS custom properties
+(`var(--bg-elevated)`, `var(--text-primary)`) that resolve per theme.
 
-### `npm run build`
+An inline script in `public/index.html` applies the stored theme before first
+paint, so there's no flash of the wrong theme. The site follows the OS
+preference until you explicitly pick a theme.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Motion
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+All animation flows through `src/utils/motion.ts`. Wrap variants in `pick(…, reduced)`
+so `prefers-reduced-motion` collapses transforms to a no-op rather than merely
+shortening them. `global.scss` has a CSS-level backstop as well.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Adding content
 
-### `npm run eject`
+**A job:** append to `experience` in `src/data/experience.ts`. Set `end: null`
+for your current role — it gets the live badge and pulse. Lead each highlight
+with the outcome and a number where you have one.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**A project:** append to `projects` in `src/data/projects.ts`. Fill
+`problem` / `approach` / `outcome`; those become the case study dialog.
+Set `featured: true` to surface it in the grid.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**A company logo:** drop an SVG into `src/assets/logos/` named after the
+company slug (`philips.svg`, `avl-india-software.svg`). It's picked up
+automatically. Until then a tinted monogram renders in its place.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Keyboard
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+| Shortcut        | Action                     |
+| --------------- | -------------------------- |
+| `⌘K` / `Ctrl+K` | Command palette            |
+| `↑` `↓`         | Move through results       |
+| `↵`             | Run the selected command   |
+| `Esc`           | Close palette / dialog     |
+| `Tab`           | Skip link is the first stop |
 
-## Learn More
+## Notes
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `REACT_APP_*` vars are inlined into the client bundle at build time. The
+  EmailJS public key is meant to be public, but restrict allowed origins and
+  enable rate limiting in the EmailJS dashboard.
+- `public/social-preview.png` (1200×630) is referenced by the OG and Twitter
+  tags and still needs to be added.
