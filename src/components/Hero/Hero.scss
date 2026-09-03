@@ -1,150 +1,404 @@
-.container-hero {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-      width: 100vw;
-      padding-top: 14.25em;
-      box-sizing: border-box;
-      position: relative;
-  
-      #hero {
-          top: 0;
-          position: absolute;
-      }
-  
-      .container-avatar {
-          border-radius: 9999px;
-          height: 250px;
-          width: 250px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          overflow: hidden;
-          box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
-  
-          @media screen and (max-width: 510px) {
-              height: 200px;
-              width: 200px;
-  
-              img {
-                  height: 200px !important;
-                  width: 200px !important;
-              }
-          }
-  
-          img {
-              height: 250px;
-              width: 250px;
-              border-top-right-radius: 0px;
-              position: absolute;
-              bottom: 0px;
-              -webkit-user-drag: none;
-              -khtml-user-drag: none;
-              -moz-user-drag: none;
-              -o-user-drag: none;
-          }
-      }
-  
-      h2,
-      h3,
-      h4,
-      h1 {
-          font-family: "Inter", sans-serif;
-      }
-  
-      h2 {
-          margin-top: 24px;
-          font-size: 24px;
-          font-weight: 500;
-          letter-spacing: -0.035em;
-  
-          @media screen and (max-width: 410px) {
-              font-size: 18px;
-          }
-      }
-  
-      h1 {
-          margin-top: 25px;
-          font-size: 72px;
-          font-weight: 700;
-          letter-spacing: -0.04em;
-          word-spacing: -0.0075em;
-  
-          @media screen and (max-width: 768px) {
-              font-size: 50px;
-          }
-  
-          @media screen and (max-width: 510px) {
-              font-size: 38px;
-          }
-  
-          @media screen and (max-width: 410px) {
-              font-size: 32px;
-          }
-  
-          @media screen and (max-width: 350px) {
-              font-size: 27px;
-          }
-      }
-  
-      h4 {
-          font-size: 15px;
-          font-weight: 400;
-          margin-top: 22px;
-          max-width: 390px;
-          text-align: center;
-  
-          @media screen and (max-width: 410px) {
-              font-size: 12px;
-              max-width: 270px;
-          }
-  
-          @media screen and (max-width: 350px) {
-              margin-top: 14px;
-          }
-      }
-  
-      button {
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          padding: 12px 20px 12px 24px;
-          background-color: #0064ff;
-          border: none;
-          width: 190px;
-          margin-top: 24px;
-          border-radius: 36px;
-          box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.275);
-          position: relative;
-  
-          @media screen and (max-width: 510px) {
-              width: 165px;
-          }
-  
-          &:hover {
-  
-              img {
-                  right: 16px;
-              }
-          }
-  
-          h3 {
-              color: white;
-              font-size: 18px;
-              font-weight: 400;
-  
-              @media screen and (max-width: 510px) {
-                  font-size: 14px;
-              }
-          }
-  
-          img {
-              height: 12px;
-              transition: 0.275s all ease-out;
-              position: absolute;
-              right: 20px;
-          }
-      }
+@use "../../styles/mixins" as m;
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  padding-block: clamp(7rem, 16vh, 11rem) clamp(4rem, 10vh, 7rem);
+  /* Transparent so the ambient backdrop shows through the hero */
+  background: transparent;
+  overflow: hidden;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: center;
+
+  @include m.above(lg) {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   }
+}
+
+.hero__text {
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-6);
+  max-width: 40rem;
+  order: 2;
+
+  @include m.above(lg) {
+    order: 1;
+  }
+}
+
+/* ---- Portrait ---- */
+
+.hero__portrait {
+  position: relative;
+  order: 1;
+  justify-self: center;
+  width: clamp(9rem, 34vw, 15rem);
+  aspect-ratio: 1;
+
+  @include m.above(lg) {
+    order: 2;
+    justify-self: end;
+    width: clamp(15rem, 22vw, 20rem);
+  }
+}
+
+/* The tilting layer — everything that should move in 3D lives here */
+.hero__portrait-frame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--r-2xl);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hero__avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--r-2xl);
+  object-fit: cover;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-lg);
+  background: var(--bg-elevated);
+}
+
+/* Moving specular highlight that tracks the cursor */
+.hero__portrait-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: var(--r-2xl);
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Floating status chip, lifted off the surface in 3D */
+.hero__portrait-badge {
+  position: absolute;
+  bottom: var(--sp-3);
+  left: var(--sp-3);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--r-pill);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-primary);
+  transform: translateZ(40px);
+  box-shadow: var(--shadow-sm);
+}
+
+.hero__portrait-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-green);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-green) 22%, transparent);
+
+  @include m.motion-safe {
+    animation: hero-pulse 2.4s var(--ease-in-out) infinite;
+  }
+}
+
+/* Soft coloured bloom behind the portrait */
+.hero__portrait-glow {
+  position: absolute;
+  inset: -12%;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 45%,
+    color-mix(in srgb, var(--accent) 34%, transparent),
+    color-mix(in srgb, var(--c-indigo) 20%, transparent) 45%,
+    transparent 70%
+  );
+  filter: blur(28px);
+  opacity: 0.9;
+
+  @include m.motion-safe {
+    animation: hero-glow 7s var(--ease-in-out) infinite;
+  }
+}
+
+@keyframes hero-glow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+/* Thin gradient ring hugging the frame */
+.hero__portrait-ring {
+  position: absolute;
+  inset: -7px;
+  z-index: 0;
+  border-radius: calc(var(--r-2xl) + 7px);
+  padding: 1px;
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--accent) 60%, transparent),
+    transparent 40%,
+    color-mix(in srgb, var(--c-teal) 45%, transparent)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ---- Status pill ---- */
+
+.hero__status {
+  @include m.focusable;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px 6px 6px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-inset);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-primary);
+  transition: border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    border-color: var(--border-default);
+    color: var(--text-primary);
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+    color: var(--text-secondary);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  &:hover svg {
+    transform: translateX(2px);
+  }
+}
+
+.hero__status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-green);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-green) 20%, transparent);
+  flex-shrink: 0;
+
+  @include m.motion-safe {
+    animation: hero-pulse 2.4s var(--ease-in-out) infinite;
+  }
+}
+
+@keyframes hero-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ---- Type ---- */
+
+.hero__title {
+  @include m.display;
+  color: var(--text-primary);
+  max-width: 22ch;
+
+  em {
+    font-style: normal;
+    // Stops chosen so every part of the gradient stays legible on the
+    // background — the raw --c-teal end was too light against white.
+    background: linear-gradient(
+      100deg,
+      var(--accent),
+      var(--c-indigo) 50%,
+      var(--gradient-end)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.hero__lede {
+  font-size: var(--fs-h4);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--tracking-normal);
+  font-weight: var(--fw-normal);
+  color: var(--text-secondary);
+  max-width: 42ch;
+  text-wrap: pretty;
+}
+
+/* ---- Actions ---- */
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+}
+
+.hero__cta {
+  @include m.focusable;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-4) var(--sp-6);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  transition: transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  &:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+.hero__cta--primary {
+  background: var(--text-primary);
+  color: var(--bg-base);
+  box-shadow: var(--shadow-sm);
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.hero__cta--ghost {
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+
+  &:hover {
+    background: var(--bg-inset);
+    border-color: var(--border-strong);
+  }
+}
+
+/* ---- Socials ---- */
+
+.hero__socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-5);
+  margin-top: var(--sp-4);
+}
+
+.hero__social {
+  @include m.focusable;
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-secondary);
+  transition: color var(--dur-fast) var(--ease-out);
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-normal) var(--ease-out);
+  }
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* ---- Scroll cue ---- */
+
+.hero__scroll {
+  position: absolute;
+  bottom: var(--sp-8);
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-2);
+
+  @include m.below(md) {
+    display: none;
+  }
+}
+
+.hero__scroll-line {
+  width: 1px;
+  height: 2.5rem;
+  background: linear-gradient(to bottom, transparent, var(--border-strong));
+
+  @include m.motion-safe {
+    animation: hero-scroll 2.2s var(--ease-in-out) infinite;
+  }
+}
+
+@keyframes hero-scroll {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleY(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.hero__scroll-label {
+  @include m.eyebrow;
+  font-size: var(--fs-2xs);
+}
