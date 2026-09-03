@@ -1,137 +1,310 @@
-* {
-      margin: 0;
-      padding: 0;
+@use "../../styles/mixins" as m;
+
+.nav {
+  position: fixed;
+  top: var(--sp-4);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-nav);
+  width: calc(100% - clamp(1rem, 5vw, 2.5rem));
+  max-width: 52rem;
+}
+
+/* Plain wrapper that Framer Motion animates (opacity/y on mount).
+   Deliberately has no transform of its own — see the comment in
+   Navbar.tsx for why the centring transform must live on .nav instead. */
+.nav__animate {
+  width: 100%;
+}
+
+.nav__inner {
+  @include m.glass;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-md), var(--shadow-ring);
+
+  @include m.below(md) {
+    justify-content: space-between;
+    padding: var(--sp-2);
   }
-  
-  nav {
-      display: flex;
-      z-index: 40;
-      position: fixed;
-      top: 1.235em;
-      border-radius: 38px;
-      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
-      align-items: center;
-      height: 51px;
-      padding: 4px 8px;
-      backdrop-filter: blur(10px);
-      box-sizing: border-box;
-  
-      @media screen and (max-width: 500px) {
-          height: 40px;
-      }
-  
-      @media screen and (max-width: 386px) {
-          height: 34px;
-          padding: 4px 5px;
-      }
-  
-      img {
-          border-radius: 9999px;
-          border: none;
-          cursor: pointer;
-          height: 37px;
-          width: 37px;
-          margin-right: 22px;
-          transition: 0.2s ease-in-out all;
-  
-          &:hover {
-              scale: 1.05;
-          }
-  
-          @media screen and (max-width: 500px) {
-              height: 24px;
-              width: 24px;
-              margin-right: 14px;
-          }
-  
-          @media screen and (max-width: 386px) {
-              height: 20px;
-              width: 20px;
-              margin-right: 10px;
-          }
-      }
-  
-      h3,
-      button {
-          font-family: 'Inter', sans-serif;
-          font-weight: 400;
-          cursor: pointer;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 89px;
-          transition: 0.15s all ease-in-out;
-  
-          @media screen and (max-width: 598px) {
-              width: 68px;
-          }
-  
-          @media screen and (max-width: 500px) {
-              width: 54px;
-          }
-  
-          @media screen and (max-width: 386px) {
-              width: 40px;
-          }
-      }
-  
-      .first {
-          margin-right: 14px;
-      }
-  
-      h3 {
-          font-size: 16px;
-          padding: 11px 0px 10px 0px;
-  
-          @media screen and (max-width: 598px) {
-              font-size: 14px;
-          }
-  
-          @media screen and (max-width: 500px) {
-              font-size: 11px;
-          }
-  
-          @media screen and (max-width: 386px) {
-              font-size: 9px;
-          }
-      }
-  
-      .first {
-          @media screen and (max-width: 386px) {
-              width: 44px;
-          }
-      }
-  
-      button {
-          margin-left: 24px;
-          font-size: 15px;
-          color: white;
-          background-color: #0064FF;
-          border: none;
-          border-radius: 20px;
-          padding: 7px 18px;
-  
-          @media screen and (max-width: 598px) {
-              font-size: 14px;
-              width: 76px;
-          }
-  
-          @media screen and (max-width: 500px) {
-              font-size: 11px;
-              width: 58px;
-              margin-left: 14px;
-              padding: 4px 0px;
-          }
-  
-          @media screen and (max-width: 386px) {
-              font-size: 9px;
-              width: 50px;
-              margin-left: 10px;
-              margin-top: 1px;
-          }
-  
-          &:hover {
-              background-color: #0041a3;
-          }
-      }
+}
+
+/* Brand and actions get equal flex-basis so the links land on the true
+   centre line regardless of how wide the search button is. */
+.nav__inner > .nav__brand,
+.nav__inner > .nav__actions {
+  @include m.above(md) {
+    flex: 1 0 0;
   }
+}
+
+.nav__inner > .nav__actions {
+  @include m.above(md) {
+    justify-content: flex-end;
+  }
+}
+
+/* ---- Brand ---- */
+
+.nav__brand-mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  color: var(--bg-base);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.02em;
+  transition: transform var(--dur-fast) var(--ease-spring);
+
+  .nav__brand:hover & {
+    transform: scale(1.06);
+  }
+}
+
+/* ---- Links ---- */
+
+.nav__brand {
+  @include m.focusable(2px);
+  flex-shrink: 0;
+  border-radius: var(--r-pill);
+}
+
+.nav__list {
+  display: none;
+  align-items: center;
+  gap: 2px;
+
+  @include m.above(md) {
+    display: flex;
+  }
+}
+
+.nav__link {
+  @include m.focusable(0);
+  position: relative;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--r-pill);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--text-secondary);
+  transition: color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  &.is-active {
+    color: var(--text-primary);
+  }
+}
+
+.nav__link-text {
+  position: relative;
+  z-index: 1;
+}
+
+.nav__pill {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-pill);
+  background: var(--bg-inset);
+}
+
+/* ---- Actions ---- */
+
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-shrink: 0;
+}
+
+.nav__command {
+  @include m.focusable(2px);
+  display: none;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-inset);
+  font-size: var(--fs-xs);
+  color: var(--text-tertiary);
+  transition: border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    border-color: var(--border-default);
+    color: var(--text-secondary);
+  }
+
+  @include m.above(sm) {
+    display: flex;
+  }
+}
+
+.nav__search-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.nav__command-label {
+  @include m.below(lg) {
+    display: none;
+  }
+}
+
+.nav__kbd {
+  font-family: var(--font-sans);
+  font-size: var(--fs-2xs);
+  padding: 1px 5px;
+  border-radius: var(--r-xs);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-tertiary);
+}
+
+/* ---- Burger ---- */
+
+.nav__menu-toggle {
+  @include m.focusable(2px);
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-subtle);
+
+  @include m.above(md) {
+    display: none;
+  }
+}
+
+.nav__burger {
+  position: relative;
+  display: block;
+  width: 16px;
+  height: 10px;
+
+  span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    border-radius: 2px;
+    background: var(--text-primary);
+    transition: transform var(--dur-normal) var(--ease-out),
+      opacity var(--dur-fast) var(--ease-out);
+  }
+
+  span:first-child {
+    top: 0;
+  }
+
+  span:last-child {
+    bottom: 0;
+  }
+
+  &.is-open span:first-child {
+    transform: translateY(4.25px) rotate(45deg);
+  }
+
+  &.is-open span:last-child {
+    transform: translateY(-4.25px) rotate(-45deg);
+  }
+}
+
+/* ---- Mobile sheet ---- */
+
+.nav__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+
+  @include m.above(md) {
+    display: none;
+  }
+}
+
+.nav__sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-modal);
+  padding: var(--sp-3) var(--sp-5) calc(var(--sp-6) + env(safe-area-inset-bottom));
+  border-radius: var(--r-2xl) var(--r-2xl) 0 0;
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-xl);
+
+  @include m.above(md) {
+    display: none;
+  }
+}
+
+.nav__sheet-grip {
+  width: 36px;
+  height: 4px;
+  margin: 0 auto var(--sp-4);
+  border-radius: var(--r-pill);
+  background: var(--border-default);
+}
+
+.nav__sheet-list {
+  display: grid;
+  gap: 2px;
+}
+
+.nav__sheet-link {
+  @include m.focusable(-2px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--sp-4) var(--sp-3);
+  border-radius: var(--r-md);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  color: var(--text-primary);
+  text-align: left;
+  transition: background-color var(--dur-fast) var(--ease-out);
+
+  &:hover,
+  &.is-active {
+    background: var(--bg-inset);
+  }
+
+  &.is-active {
+    color: var(--accent);
+  }
+}
+
+.nav__sheet-arrow {
+  width: 18px;
+  height: 18px;
+  color: var(--text-tertiary);
+}
+
+.nav__sheet-cta {
+  @include m.focusable;
+  display: grid;
+  place-items: center;
+  margin-top: var(--sp-4);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: var(--fs-body);
+  font-weight: var(--fw-semibold);
+}
