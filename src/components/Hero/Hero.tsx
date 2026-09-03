@@ -14,6 +14,7 @@ import useSound from "../../hooks/useSound";
 import scrollToSection from "../../utils/scrollToSection";
 import { pick, rise, riseChild, scaleIn, stagger } from "../../utils/motion";
 import Spotlight from "../ui/Spotlight";
+import HeroPulse from "./HeroPulse";
 import "./Hero.scss";
 
 const avatarSrc = require(`../../assets/images/${profile.avatar}.png`);
@@ -160,6 +161,8 @@ export default function Hero() {
             </li>
           ))}
         </motion.ul>
+
+        <HeroPulse reduced={reduced} />
         </div>
 
         <motion.div
