@@ -1,44 +1,140 @@
-.skills-container {
-      width: 100vw;
-      display: flex;
-      flex-direction: column;
-      padding-top: 40px;
-      padding-bottom: 174px;
-      position: relative;
-  
-      #skills {
-          position: absolute;
-          top: 62px;
-      }
-  
-      .skill-grid {
-          align-self: center;
-          margin-right: 100px;
-          display: flex;
-          flex-direction: column;
-          margin-top: 58px;
-  
-          @media screen and (max-width: 1160px) {
-              margin-right: 0px;
-          }
-  
-          .skill-grid-first-row {
-              align-self: center;
-          }
-  
-          .skill-grid-second-row,
-          .skill-grid-third-row {
-              display: flex;
-              gap: 18px;
-              margin-top: 18px;
-  
-              @media screen and (max-width: 640px) {
-                  flex-direction: column;
-              }
-          }
-  
-          .skill-grid-third-row {
-              align-self: center;
-          }
-      }
+@use "../../styles/mixins" as m;
+
+.skills {
+  @include m.section;
+  background: var(--bg-base);
+}
+
+.skills__grid {
+  display: grid;
+  gap: var(--sp-4);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+
+  @include m.above(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  @include m.above(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.skills__group {
+  @include m.card;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  transition: border-color var(--dur-normal) var(--ease-out),
+    box-shadow var(--dur-normal) var(--ease-out);
+
+  &:hover {
+    border-color: var(--border-default);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.skills__group-head {
+  margin-bottom: var(--sp-5);
+}
+
+.skills__group-title {
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+}
+
+.skills__group-caption {
+  margin-top: 2px;
+  font-size: var(--fs-2xs);
+  color: var(--text-tertiary);
+}
+
+.skills__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.skills__skill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-inset);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-secondary);
+  transition: transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+
+  &:hover .tech-icon {
+    opacity: 1;
+  }
+}
+
+/* Level is encoded as a left accent bar rather than colour alone,
+   so it doesn't rely on colour perception. */
+.skills__skill--core {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border-subtle));
+  background: var(--accent-wash);
+  color: var(--text-primary);
+  font-weight: var(--fw-semibold);
+}
+
+.skills__skill--strong {
+  border-color: var(--border-default);
+}
+
+.skills__skill--working {
+  opacity: 0.85;
+  border-style: dashed;
+}
+
+.skills__name {
+  white-space: nowrap;
+}
+
+/* ---- Legend ---- */
+
+.skills__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  margin-top: var(--sp-6);
+  font-size: var(--fs-2xs);
+  color: var(--text-tertiary);
+}
+
+.skills__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  &::before {
+    content: "";
+    width: 22px;
+    height: 0;
+    border-top: 1px solid var(--border-strong);
+  }
+}
+
+.skills__legend-item--core::before {
+  border-top-width: 3px;
+  border-top-color: var(--accent);
+}
+
+.skills__legend-item--strong::before {
+  border-top-width: 2px;
+}
+
+.skills__legend-item--working::before {
+  border-top-style: dashed;
+}
