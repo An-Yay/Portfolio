@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Ananay Gupta",
+  "name": "Ananay Gupta — AI & Full-Stack Engineer",
+  "description": "Portfolio of Ananay Gupta, AI and full-stack engineer building agentic systems in production.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,16 +11,19 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "theme_color": "#0a0a0a",
   "background_color": "#ffffff"
 }

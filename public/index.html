@@ -1,21 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <title>Ananay Gupta — AI & Full-Stack Engineer</title>
     <meta
       name="description"
-      content="Hey! i'm Ananay Gupta a 19yr old developer from India. I build Apps and Website for fun. I'm a hobbyist programmer who loves to contribute with people on new and exciting stuff!"
+      content="SDE 1 at Philips architecting SENSEI, an agentic AI platform driving €15M+ in annual revenue. AWS Certified Solutions Architect and DevOps Engineer building multi-agent LLM systems, MCP infrastructure, and production web platforms."
     />
-    <meta property="og:image" content="./socialpreview.png">
+    <meta name="author" content="Ananay Gupta" />
+    <link rel="canonical" href="https://ananaygupta.dev/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ananaygupta.dev/" />
+    <meta
+      property="og:title"
+      content="Ananay Gupta — AI & Full-Stack Engineer"
+    />
+    <meta
+      property="og:description"
+      content="SDE 1 at Philips architecting SENSEI, an agentic AI platform driving €15M+ in annual revenue. Building multi-agent LLM systems and MCP infrastructure."
+    />
+    <meta property="og:image" content="%PUBLIC_URL%/social-preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Ananay Gupta — AI & Full-Stack Engineer"
+    />
+    <meta property="og:site_name" content="Ananay Gupta" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@_An_yay" />
+    <meta name="twitter:creator" content="@_An_yay" />
+    <meta
+      name="twitter:title"
+      content="Ananay Gupta — AI & Full-Stack Engineer"
+    />
+    <meta
+      name="twitter:description"
+      content="SDE 1 at Philips architecting SENSEI, an agentic AI platform driving €15M+ in annual revenue."
+    />
+    <meta name="twitter:image" content="%PUBLIC_URL%/social-preview.png" />
+
+    <!-- Icons & manifest -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>Ananay |Developer</title>
+
+    <!-- Fonts: preconnect then load without blocking render -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap"
+    />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+    <!-- Set the stored theme before first paint to avoid a flash -->
+    <script>
+      (function () {
+        try {
+          var raw = localStorage.getItem("ananay.portfolio.prefs");
+          var stored = raw ? JSON.parse(raw) : null;
+          var theme =
+            (stored && stored.theme) ||
+            (window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light");
+          document.documentElement.dataset.theme = theme;
+          document
+            .querySelector('meta[name="theme-color"]')
+            .setAttribute("content", theme === "dark" ? "#0a0a0a" : "#ffffff");
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ananay Gupta",
+        "url": "https://ananaygupta.dev/",
+        "email": "mailto:ananaygupta23@gmail.com",
+        "jobTitle": "Software Development Engineer 1",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Philips"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Vellore Institute of Technology"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "Delhi NCR",
+          "addressCountry": "IN"
+        },
+        "sameAs": [
+          "https://github.com/An-Yay",
+          "https://linkedin.com/in/ananay-g/",
+          "https://twitter.com/_An_yay"
+        ],
+        "knowsAbout": [
+          "Agentic AI",
+          "Multi-agent LLM systems",
+          "Model Context Protocol",
+          "React",
+          "TypeScript",
+          "Python",
+          "AWS"
+        ]
+      }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      You need to enable JavaScript to view this portfolio. You can reach Ananay
+      Gupta at ananaygupta23@gmail.com.
+    </noscript>
     <div id="root"></div>
   </body>
 </html>
