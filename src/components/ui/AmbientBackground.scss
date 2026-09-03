@@ -1,0 +1,148 @@
+@use "../../styles/mixins" as m;
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg-base);
+}
+
+/* Faint grid that gives the empty space some structure */
+.ambient__grid {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      to right,
+      var(--border-subtle) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.4;
+  /* Fade the grid out toward the edges so it doesn't feel boxed-in */
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    #000 30%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    #000 30%,
+    transparent 75%
+  );
+
+  [data-theme="dark"] & {
+    opacity: 0.5;
+  }
+}
+
+.ambient__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+  will-change: transform;
+
+  [data-theme="dark"] & {
+    opacity: 0.32;
+    filter: blur(110px);
+  }
+}
+
+.ambient__blob--1 {
+  top: -12%;
+  left: -8%;
+  width: 42vw;
+  height: 42vw;
+  max-width: 640px;
+  max-height: 640px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 55%, transparent),
+    transparent 70%
+  );
+
+  @include m.motion-safe {
+    animation: ambient-drift-1 26s var(--ease-in-out) infinite;
+  }
+}
+
+.ambient__blob--2 {
+  top: -5%;
+  right: -10%;
+  width: 38vw;
+  height: 38vw;
+  max-width: 560px;
+  max-height: 560px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--c-violet) 45%, transparent),
+    transparent 70%
+  );
+
+  @include m.motion-safe {
+    animation: ambient-drift-2 32s var(--ease-in-out) infinite;
+  }
+}
+
+.ambient__blob--3 {
+  bottom: -18%;
+  left: 30%;
+  width: 46vw;
+  height: 46vw;
+  max-width: 680px;
+  max-height: 680px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--c-teal) 38%, transparent),
+    transparent 70%
+  );
+
+  @include m.motion-safe {
+    animation: ambient-drift-3 38s var(--ease-in-out) infinite;
+  }
+}
+
+@keyframes ambient-drift-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(8vw, 6vh) scale(1.12);
+  }
+  66% {
+    transform: translate(-4vw, 10vh) scale(0.94);
+  }
+}
+
+@keyframes ambient-drift-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-9vw, 8vh) scale(1.15);
+  }
+}
+
+@keyframes ambient-drift-3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  40% {
+    transform: translate(6vw, -6vh) scale(1.08);
+  }
+  75% {
+    transform: translate(-7vw, -3vh) scale(0.96);
+  }
+}
+
+@include m.motion-reduce {
+  .ambient__blob {
+    animation: none;
+  }
+}

@@ -1,0 +1,42 @@
+@use "../../styles/mixins" as m;
+
+.section-header {
+  display: grid;
+  gap: var(--sp-4);
+  max-width: 46rem;
+}
+
+.section-header--center {
+  margin-inline: auto;
+  text-align: center;
+  justify-items: center;
+}
+
+.section-header__eyebrow {
+  @include m.eyebrow;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+
+  &::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: var(--border-strong);
+  }
+
+  .section-header--center &::before {
+    display: none;
+  }
+}
+
+.section-header__title {
+  @include m.heading-2;
+  color: var(--text-primary);
+}
+
+.section-header__description {
+  @include m.body;
+  font-size: var(--fs-lg);
+  max-width: 40rem;
+}

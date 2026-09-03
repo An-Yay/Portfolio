@@ -1,0 +1,15 @@
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: var(--z-toast);
+  transform-origin: 0 50%;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    var(--c-indigo) 55%,
+    var(--c-teal)
+  );
+}

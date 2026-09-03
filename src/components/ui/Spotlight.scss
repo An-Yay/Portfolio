@@ -1,0 +1,49 @@
+.spotlight {
+  --spot-x: 50%;
+  --spot-y: 40%;
+  --spot-opacity: 0;
+
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: var(--spot-opacity);
+  transition: opacity 500ms var(--ease-out);
+  background: radial-gradient(
+      600px circle at var(--spot-x) var(--spot-y),
+      color-mix(in srgb, var(--accent) 9%, transparent),
+      transparent 65%
+    ),
+    radial-gradient(
+      900px circle at var(--spot-x) var(--spot-y),
+      color-mix(in srgb, var(--c-indigo) 5%, transparent),
+      transparent 70%
+    );
+
+  /* Static ambient wash so the hero isn't flat before the pointer arrives */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 1;
+    background: radial-gradient(
+        70rem 40rem at 15% -10%,
+        color-mix(in srgb, var(--accent) 7%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        55rem 35rem at 90% 10%,
+        color-mix(in srgb, var(--c-indigo) 6%, transparent),
+        transparent 60%
+      );
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  @media (hover: none) {
+    /* No pointer to follow on touch devices — keep only the ambient wash */
+    background: none;
+  }
+}

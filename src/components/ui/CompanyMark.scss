@@ -1,0 +1,25 @@
+.company-mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-sm);
+  object-fit: contain;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-subtle);
+  padding: 6px;
+}
+
+.company-mark--fallback {
+  padding: 0;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.02em;
+  color: var(--mark-color, var(--accent));
+  background: color-mix(in srgb, var(--mark-color, var(--accent)) 12%, transparent);
+  border-color: color-mix(
+    in srgb,
+    var(--mark-color, var(--accent)) 24%,
+    transparent
+  );
+}
