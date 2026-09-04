@@ -1,4 +1,3 @@
-import React from "react";
 import { Toaster } from "react-hot-toast";
 import { AppProvider } from "./store/AppContext";
 import Navbar from "./components/Navbar/Navbar";
@@ -7,7 +6,6 @@ import About from "./components/About/About";
 import Experience from "./components/Experience/Experience";
 import Work from "./components/Work/Work";
 import Skills from "./components/Skills/Skills";
-import Live from "./components/Live/Live";
 import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import CommandPalette from "./components/CommandPalette/CommandPalette";
@@ -39,7 +37,6 @@ export default function App() {
         <Experience />
         <Work />
         <Skills />
-        <Live />
         <Contact />
       </main>
 

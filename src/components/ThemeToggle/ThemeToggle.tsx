@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useApp } from "../../store/AppContext";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import useSound from "../../hooks/useSound";

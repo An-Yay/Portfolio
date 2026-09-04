@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { experience } from "../../data/experience";
 import { pick, riseChild } from "../../utils/motion";

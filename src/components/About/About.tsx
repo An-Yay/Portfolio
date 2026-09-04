@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { awards, education, profile, stats } from "../../data/profile";
 import useReducedMotion from "../../hooks/useReducedMotion";

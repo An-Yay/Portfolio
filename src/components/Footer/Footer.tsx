@@ -1,4 +1,3 @@
-import React from "react";
 import { navItems } from "../../data/navigation";
 import { profile, socials } from "../../data/profile";
 import useSound from "../../hooks/useSound";

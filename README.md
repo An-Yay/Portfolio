@@ -1,14 +1,16 @@
 # Portfolio — Ananay Gupta
 
-Personal site. React 18 + TypeScript + SCSS, animated with Framer Motion.
+Personal site. React 19 + TypeScript + SCSS, animated with Framer Motion,
+built with Vite.
 
 ## Running locally
 
 ```bash
 npm install
 cp .env.example .env.local   # then fill in your EmailJS values
-npm start                    # http://localhost:3000
+npm run dev                  # http://localhost:3000
 npm run build                # production bundle in ./build
+npm run preview              # serve the production build locally
 ```
 
 ## Architecture
@@ -77,7 +79,7 @@ automatically. Until then a tinted monogram renders in its place.
 
 ## Notes
 
-- `REACT_APP_*` vars are inlined into the client bundle at build time. The
+- `VITE_*` vars are inlined into the client bundle at build time. The
   EmailJS public key is meant to be public, but restrict allowed origins and
   enable rate limiting in the EmailJS dashboard.
 - `public/social-preview.png` (1200×630) is referenced by the OG and Twitter

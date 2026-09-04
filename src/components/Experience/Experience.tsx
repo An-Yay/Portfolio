@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import {
   experience,
@@ -47,7 +47,7 @@ export default function Experience() {
             />
           </div>
 
-          {experience.map((role, index) => {
+          {experience.map((role) => {
             const isCurrent = role.end === null;
             return (
               <motion.li

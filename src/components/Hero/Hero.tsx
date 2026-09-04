@@ -14,11 +14,15 @@ import useSound from "../../hooks/useSound";
 import scrollToSection from "../../utils/scrollToSection";
 import { pick, rise, riseChild, scaleIn, stagger } from "../../utils/motion";
 import Spotlight from "../ui/Spotlight";
-import HeroPulse from "./HeroPulse";
+import HeroLive from "./HeroLive";
 import WorkedWith from "./WorkedWith";
 import "./Hero.scss";
 
-const avatarSrc = require(`../../assets/images/${profile.avatar}.png`);
+// Vite resolves this to the final hashed asset URL at build time.
+const avatarSrc = new URL(
+  `../../assets/images/${profile.avatar}.png`,
+  import.meta.url
+).href;
 
 const MAX_TILT = 12; // degrees
 
@@ -165,42 +169,45 @@ export default function Hero() {
           ))}
         </motion.ul>
 
-        <HeroPulse reduced={reduced} />
         </div>
 
-        <motion.div
-          className="hero__portrait"
-          variants={pick(scaleIn(0.15), reduced)}
-          onMouseMove={onPortraitMove}
-          onMouseLeave={onPortraitLeave}
-        >
-          <span className="hero__portrait-glow" aria-hidden="true" />
+        <div className="hero__aside">
           <motion.div
-            className="hero__portrait-frame"
-            style={reduced ? undefined : { transform }}
+            className="hero__portrait"
+            variants={pick(scaleIn(0.15), reduced)}
+            onMouseMove={onPortraitMove}
+            onMouseLeave={onPortraitLeave}
           >
-            <img
-              className="hero__avatar"
-              src={avatarSrc}
-              alt={`${profile.name}, ${profile.role}`}
-              width={1000}
-              height={1000}
-              decoding="async"
-            />
-            <span className="hero__portrait-ring" aria-hidden="true" />
-            {!reduced && (
-              <motion.span
-                className="hero__portrait-glare"
-                style={{ background: glare }}
-                aria-hidden="true"
+            <span className="hero__portrait-glow" aria-hidden="true" />
+            <motion.div
+              className="hero__portrait-frame"
+              style={reduced ? undefined : { transform }}
+            >
+              <img
+                className="hero__avatar"
+                src={avatarSrc}
+                alt={`${profile.name}, ${profile.role}`}
+                width={1000}
+                height={1000}
+                decoding="async"
               />
-            )}
-            <span className="hero__portrait-badge" aria-hidden="true">
-              <span className="hero__portrait-badge-dot" />
-              Available
-            </span>
+              <span className="hero__portrait-ring" aria-hidden="true" />
+              {!reduced && (
+                <motion.span
+                  className="hero__portrait-glare"
+                  style={{ background: glare }}
+                  aria-hidden="true"
+                />
+              )}
+              <span className="hero__portrait-badge" aria-hidden="true">
+                <span className="hero__portrait-badge-dot" />
+                Available
+              </span>
+            </motion.div>
           </motion.div>
-        </motion.div>
+
+          <HeroLive reduced={reduced} />
+        </div>
       </motion.div>
 
       <motion.div

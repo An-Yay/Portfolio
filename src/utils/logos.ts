@@ -32,23 +32,17 @@ export const brandColor = (slug: string) => BRAND[slug] ?? "var(--accent)";
 
 function loadLogos(): Record<string, string> {
   const map: Record<string, string> = {};
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const context = (require as any).context(
-      "../assets/logos",
-      false,
-      /\.(svg|png|webp)$/
-    );
-    context.keys().forEach((key: string) => {
-      const slug = key
-        .replace(/^\.\//, "")
-        .replace(/\.(svg|png|webp)$/, "")
-        .toLowerCase();
-      const mod = context(key);
-      map[slug] = mod?.default ?? mod;
-    });
-  } catch {
-    // Folder absent or bundler without require.context: monograms render instead.
+  // Vite resolves each match to its final asset URL at build time.
+  const modules = import.meta.glob<string>(
+    "../assets/logos/*.{svg,png,webp}",
+    { eager: true, import: "default", query: "?url" }
+  );
+  for (const [path, url] of Object.entries(modules)) {
+    const slug = path
+      .replace(/^.*\//, "")
+      .replace(/\.(svg|png|webp)$/, "")
+      .toLowerCase();
+    map[slug] = url;
   }
   return map;
 }

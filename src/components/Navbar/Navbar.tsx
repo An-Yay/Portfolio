@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { navItems, sectionIds } from "../../data/navigation";
 import { profile } from "../../data/profile";

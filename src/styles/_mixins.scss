@@ -3,6 +3,8 @@
 //  Mobile-first. Use `respond-above` by default.
 // ============================================================
 
+@use "sass:map";
+
 $bp: (
   xs: 480px,
   sm: 640px,
@@ -13,8 +15,8 @@ $bp: (
 );
 
 @mixin above($name) {
-  @if map-has-key($bp, $name) {
-    @media (min-width: map-get($bp, $name)) {
+  @if map.has-key($bp, $name) {
+    @media (min-width: map.get($bp, $name)) {
       @content;
     }
   } @else {
@@ -23,8 +25,8 @@ $bp: (
 }
 
 @mixin below($name) {
-  @if map-has-key($bp, $name) {
-    @media (max-width: (map-get($bp, $name) - 1px)) {
+  @if map.has-key($bp, $name) {
+    @media (max-width: (map.get($bp, $name) - 1px)) {
       @content;
     }
   } @else {

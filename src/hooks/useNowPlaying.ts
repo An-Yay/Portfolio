@@ -17,12 +17,12 @@ export interface NowPlayingState {
 /**
  * Reads the currently-playing (or last-played) Spotify track from a backend
  * endpoint. Spotify requires a server-held refresh token, so this expects an
- * endpoint at REACT_APP_NOWPLAYING_URL that returns a `Track` shape.
+ * endpoint at VITE_NOWPLAYING_URL that returns a `Track` shape.
  *
  * Without that env var it reports "unconfigured" and the widget hides itself.
  * See scripts/spotify-now-playing.example.js for a ready-to-deploy handler.
  */
-const ENDPOINT = process.env.REACT_APP_NOWPLAYING_URL ?? "";
+const ENDPOINT = import.meta.env.VITE_NOWPLAYING_URL ?? "";
 const POLL_MS = 30_000;
 
 export default function useNowPlaying(): NowPlayingState {

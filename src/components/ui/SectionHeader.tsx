@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import { inView, pick, rise, riseChild, stagger } from "../../utils/motion";

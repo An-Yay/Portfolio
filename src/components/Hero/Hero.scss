@@ -35,19 +35,32 @@
   }
 }
 
-/* ---- Portrait ---- */
+/* ---- Right column: portrait + live cards ---- */
+
+.hero__aside {
+  order: 1;
+  display: grid;
+  gap: var(--sp-5);
+  justify-items: center;
+  width: 100%;
+
+  @include m.above(lg) {
+    order: 2;
+    justify-items: stretch;
+  }
+}
 
 .hero__portrait {
   position: relative;
-  order: 1;
   justify-self: center;
   width: clamp(9rem, 34vw, 15rem);
   aspect-ratio: 1;
 
   @include m.above(lg) {
-    order: 2;
-    justify-self: end;
-    width: clamp(15rem, 22vw, 20rem);
+    justify-self: stretch;
+    width: 100%;
+    max-width: 20rem;
+    margin-left: auto;
   }
 }
 
