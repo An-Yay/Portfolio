@@ -11,6 +11,49 @@
   overflow: hidden;
 }
 
+/* ---- WebGL glass-distortion backdrop ---- */
+.hero-distortion {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* Sits behind the hero content (z-index: 1) but catches pointer moves
+     over the empty backdrop to drive the lens. Clicks on hero content are
+     unaffected since that content stacks above this layer. */
+  opacity: 1;
+  /* Screen blend lets the refracted text and glass glow against the dark
+     ambient backdrop instead of sinking into it. */
+  mix-blend-mode: screen;
+
+  /* Fade the edges so the canvas melts into the hero rather than showing a
+     hard rectangular seam. */
+  -webkit-mask-image: radial-gradient(
+    ellipse 90% 80% at 50% 45%,
+    #000 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 90% 80% at 50% 45%,
+    #000 55%,
+    transparent 100%
+  );
+
+  canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  @include m.motion-reduce {
+    display: none;
+  }
+}
+
+/* On light theme, screen blend would wash the text out — multiply keeps the
+   dark refracted type readable against the light backdrop. */
+[data-theme="light"] .hero-distortion {
+  mix-blend-mode: multiply;
+}
+
 .hero__inner {
   position: relative;
   z-index: 1;

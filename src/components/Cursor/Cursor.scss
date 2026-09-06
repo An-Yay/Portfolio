@@ -34,22 +34,30 @@ body.has-custom-cursor {
   will-change: transform;
 }
 
+/* `difference` blending inverts the cursor against whatever's behind it, so
+   it stays visible over the hero's white 3D type, light surfaces, images,
+   and dark backgrounds alike — no more white-on-white disappearing act. */
 .cursor-dot {
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
   border-radius: 50%;
-  background: var(--text-primary);
+  background: #fff;
+  mix-blend-mode: difference;
 }
 
 .cursor-ring {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
   border-radius: 50%;
-  border: 1px solid var(--border-strong);
+  border: 2px solid #fff;
+  /* Slightly translucent so the leading dot stays the clear focal point and
+     the trailing ring reads as a soft halo rather than competing with it. */
+  opacity: 0.7;
+  mix-blend-mode: difference;
   transition: width var(--dur-normal) var(--ease-out),
     height var(--dur-normal) var(--ease-out),
     margin var(--dur-normal) var(--ease-out),
@@ -62,6 +70,10 @@ body.has-custom-cursor {
   width: 46px;
   height: 46px;
   margin: -23px 0 0 -23px;
+  /* On hover, switch off the invert and use the brand accent so interactive
+     elements get a clear, on-brand highlight. */
+  opacity: 1;
+  mix-blend-mode: normal;
   background: var(--accent-wash);
   border-color: var(--accent);
 }
@@ -70,6 +82,8 @@ body.has-custom-cursor {
   width: 26px;
   height: 26px;
   margin: -13px 0 0 -13px;
+  opacity: 1;
+  mix-blend-mode: normal;
   background: var(--accent-wash);
   border-color: var(--accent);
 }
@@ -81,6 +95,10 @@ body.has-custom-cursor {
   margin: -16px 0 0 -28px;
   padding: 6px 12px;
   border-radius: var(--r-pill);
+  /* The label pill has its own solid surface, so normal blending keeps the
+     text legible rather than inverting it. */
+  opacity: 1;
+  mix-blend-mode: normal;
   background: var(--text-primary);
   border-color: var(--text-primary);
 }

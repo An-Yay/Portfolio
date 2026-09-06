@@ -14,6 +14,7 @@ import useSound from "../../hooks/useSound";
 import scrollToSection from "../../utils/scrollToSection";
 import { pick, rise, riseChild, scaleIn, stagger } from "../../utils/motion";
 import Spotlight from "../ui/Spotlight";
+import HeroDistortionLazy from "./HeroDistortionLazy";
 import HeroLive from "./HeroLive";
 import WorkedWith from "./WorkedWith";
 import "./Hero.scss";
@@ -71,6 +72,7 @@ export default function Hero() {
     <section className="hero" ref={ref} aria-labelledby="hero-heading">
       <span className="section-anchor" id="hero" aria-hidden="true" />
       <Spotlight />
+      <HeroDistortionLazy />
 
       <motion.div
         className="hero__inner container"
