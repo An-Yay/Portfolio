@@ -10,9 +10,14 @@ export const profile = {
   /** Short role line used in the hero */
   role: "AI & Full-Stack Engineer",
   /** Long-form positioning, used in meta description and the manifest section */
+  // NOTE: Philips-specific detail (SENSEI, revenue figures) temporarily
+  // removed from public copy per management request. Restore when cleared.
+  // tagline:
+  //   "SDE at Philips, architecting SENSEI — a multi-agent platform driving €15M+ in annual revenue. I build production AI, not demos.",
+  // bio: "SDE 1 on the Intelligent Systems & AI team at Philips, where I architect multi-agent LLM platforms and the MCP infrastructure behind them. Before this I co-founded a real-estate startup, wrote a CDN from scratch, and shipped IIOT dashboards. AWS Certified Solutions Architect and DevOps Engineer.",
   tagline:
-    "SDE at Philips, architecting SENSEI — a multi-agent platform driving €15M+ in annual revenue. I build production AI, not demos.",
-  bio: "SDE 1 on the Intelligent Systems & AI team at Philips, where I architect multi-agent LLM platforms and the MCP infrastructure behind them. Before this I co-founded a real-estate startup, wrote a CDN from scratch, and shipped IIOT dashboards. AWS Certified Solutions Architect and DevOps Engineer.",
+    "SDE at Philips. I build production AI, not demos.",
+  bio: "SDE at Philips. Before this I co-founded a real-estate startup, wrote a CDN from scratch, and shipped IIOT dashboards. AWS Certified Solutions Architect and DevOps Engineer.",
   location: "Delhi NCR, India",
   email: "ananaygupta23@gmail.com",
   phone: "+91-8130781382",
@@ -111,8 +116,10 @@ export const awards: Award[] = [
 
 /** Headline stats for the about section. */
 export const stats = [
-  { id: "revenue", value: "€15M+", label: "Revenue driven", accent: "green" },
-  { id: "savings", value: "€400K", label: "Cost saved annually", accent: "blue" },
+  // NOTE: Philips revenue/savings figures hidden from public view per
+  // management request. Restore the two entries below when cleared.
+  // { id: "revenue", value: "€15M+", label: "Revenue driven", accent: "green" },
+  // { id: "savings", value: "€400K", label: "Cost saved annually", accent: "blue" },
   { id: "experience", value: "3+", label: "Years shipping", accent: "purple" },
   { id: "leetcode", value: "100+", label: "LeetCode solved", accent: "orange" },
 ] as const;
