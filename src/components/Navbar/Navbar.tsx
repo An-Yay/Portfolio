@@ -59,6 +59,8 @@ export default function Navbar() {
             className="nav__brand"
             onClick={() => go("hero")}
             aria-label={`${profile.name} — back to top`}
+            data-analytics-id="back-to-top"
+            data-analytics-surface="navbar"
           >
             <span className="nav__brand-mark" aria-hidden="true">
               AG
@@ -75,6 +77,8 @@ export default function Navbar() {
                     className={`nav__link${isActive ? " is-active" : ""}`}
                     onClick={() => go(item.id)}
                     aria-current={isActive ? "true" : undefined}
+                    data-analytics-id={`nav-${item.id}`}
+                    data-analytics-surface="navbar"
                   >
                     {isActive && (
                       <motion.span
@@ -104,6 +108,8 @@ export default function Navbar() {
                 openPalette();
               }}
               aria-label="Open command palette"
+              data-analytics-id="open-command-palette"
+              data-analytics-surface="navbar"
             >
               <svg viewBox="0 0 24 24" aria-hidden="true" className="nav__search-icon">
                 <path
@@ -125,6 +131,8 @@ export default function Navbar() {
               aria-expanded={state.menuOpen}
               aria-controls="mobile-menu"
               aria-label={state.menuOpen ? "Close menu" : "Open menu"}
+              data-analytics-id="toggle-mobile-menu"
+              data-analytics-surface="navbar"
             >
               <span
                 className={`nav__burger${state.menuOpen ? " is-open" : ""}`}
@@ -176,6 +184,8 @@ export default function Navbar() {
                       }`}
                       onClick={() => go(item.id)}
                       aria-current={active === item.id ? "true" : undefined}
+                      data-analytics-id={`nav-${item.id}`}
+                      data-analytics-surface="mobile-menu"
                     >
                       {item.label}
                       <svg
@@ -200,6 +210,8 @@ export default function Navbar() {
                 className="nav__sheet-cta"
                 href={`mailto:${profile.email}`}
                 onClick={closeMenu}
+                data-analytics-id="contact-email"
+                data-analytics-surface="mobile-menu"
               >
                 Get in touch
               </a>

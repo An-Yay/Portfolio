@@ -64,6 +64,8 @@ export default function ThemeToggle() {
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       aria-pressed={isDark}
       data-tooltip={isDark ? "Light mode" : "Dark mode"}
+      data-analytics-id="theme-toggle"
+      data-analytics-surface="floating-controls"
     >
       <span className="theme-toggle__icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" className="theme-toggle__sun">

@@ -229,6 +229,8 @@ export default function Contact() {
               className="contact__submit"
               disabled={status === "sending"}
               onMouseDown={playClick}
+              data-analytics-id="contact-submit"
+              data-analytics-surface="contact-form"
             >
               {status === "sending" ? "Sending…" : "Send message"}
             </button>
@@ -249,6 +251,8 @@ export default function Contact() {
                 type="button"
                 className="contact__email"
                 onClick={copyEmail}
+                data-analytics-id="copy-email"
+                data-analytics-surface="contact"
               >
                 <span>{profile.email}</span>
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -265,6 +269,8 @@ export default function Contact() {
                 href={resumePdf}
                 download={profile.resumeFileName}
                 onMouseDown={playClick}
+                data-analytics-id="download-resume"
+                data-analytics-surface="contact"
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path
@@ -287,6 +293,8 @@ export default function Contact() {
                       target="_blank"
                       rel="noreferrer noopener"
                       onMouseDown={playClick}
+                      data-analytics-id={`social-${social.id}`}
+                      data-analytics-surface="contact"
                     >
                       <span className="contact__social-label">
                         {social.label}

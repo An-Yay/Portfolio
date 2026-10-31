@@ -27,6 +27,8 @@ export default function WorkedWith({ reduced }: { reduced: boolean }) {
       <button
         type="button"
         className="worked-with__logos"
+        data-analytics-id="see-experience"
+        data-analytics-surface="worked-with"
         onClick={() => {
           playClick();
           scrollToSection("experience");

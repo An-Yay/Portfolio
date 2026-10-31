@@ -7,6 +7,7 @@ import { useApp } from "../../store/AppContext";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import useSound from "../../hooks/useSound";
 import scrollToSection from "../../utils/scrollToSection";
+import { trackInteraction } from "../Analytics/ClickAnalytics";
 import resumePdf from "../../assets/documents/Ananay_Resume.pdf";
 import "./CommandPalette.scss";
 
@@ -200,6 +201,7 @@ export default function CommandPalette() {
   const execute = useCallback(
     (command: Command) => {
       playClick();
+      trackInteraction(`command-${command.id}`, "command-palette");
       closePalette();
       // Let the exit animation start before the action moves the page.
       requestAnimationFrame(() => command.run());

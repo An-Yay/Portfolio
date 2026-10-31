@@ -158,6 +158,8 @@ export default function ContextMenu() {
       type="button"
       role="menuitem"
       className="context-menu__item"
+      data-analytics-id={`context-${item.id}`}
+      data-analytics-surface="context-menu"
       onClick={() => run(item)}
     >
       <span className="context-menu__icon">{item.icon}</span>

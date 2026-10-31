@@ -23,6 +23,8 @@ export default function Footer() {
                 <button
                   type="button"
                   className="footer__link"
+                  data-analytics-id={`nav-${item.id}`}
+                  data-analytics-surface="footer"
                   onClick={() => {
                     playClick();
                     scrollToSection(item.id);
@@ -40,6 +42,8 @@ export default function Footer() {
             <li key={social.id}>
               <a
                 className="footer__link"
+                data-analytics-id={`social-${social.id}`}
+                data-analytics-surface="footer"
                 href={social.href}
                 target="_blank"
                 rel="noreferrer noopener"

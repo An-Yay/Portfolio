@@ -23,6 +23,7 @@ src/
     profile.ts       Name, bio, socials, education, awards, headline stats
     experience.ts    Work history — drives the Experience timeline
     projects.ts      Case studies (problem / approach / outcome)
+    posts.ts         Blog posts and article content
     skills.ts        Grouped tech with proficiency levels
     navigation.ts    Nav items and section ids
   styles/
@@ -53,6 +54,22 @@ All animation flows through `src/utils/motion.ts`. Wrap variants in `pick(…, r
 so `prefers-reduced-motion` collapses transforms to a no-op rather than merely
 shortening them. `global.scss` has a CSS-level backstop as well.
 
+### Analytics
+
+Vercel Web Analytics is mounted in `src/App.tsx` for visitor and page-view
+reporting. Enable Web Analytics once in the Vercel project dashboard; data starts
+flowing after the next production deployment. The SDK does not send data during
+local development.
+
+Meaningful controls opt into the `Portfolio Click` custom event with fixed
+`data-analytics-id` and `data-analytics-surface` attributes. The delegated
+tracker in `src/components/Analytics/ClickAnalytics.tsx` reads only those two
+attributes. It never reads URLs, visible text, search terms, or contact-form
+values. Keep new identifiers lowercase and hyphenated, and never put personal
+or visitor data in them. Vercel currently limits custom events to Pro and
+Enterprise plans; standard visitor and page-view analytics remain independent
+of these custom click events.
+
 ## Adding content
 
 **A job:** append to `experience` in `src/data/experience.ts`. Set `end: null`
@@ -62,6 +79,13 @@ with the outcome and a number where you have one.
 **A project:** append to `projects` in `src/data/projects.ts`. Fill
 `problem` / `approach` / `outcome`; those become the case study dialog.
 Set `featured: true` to surface it in the grid.
+
+**A blog post:** add an object to `posts` in `src/data/posts.ts`. Use an ISO
+`publishedAt` date; posts are sorted newest-first automatically. Add `content`
+blocks to publish the full article inside the portfolio, or set `href` to link
+to an article published elsewhere. The file contains a starter example and
+documents every supported content block. Everything committed there is public,
+so keep private drafts outside this repository.
 
 **A company logo:** drop an SVG into `src/assets/logos/` named after the
 company slug (`philips.svg`, `avl-india-software.svg`). It's picked up

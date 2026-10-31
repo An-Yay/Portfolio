@@ -44,6 +44,8 @@ export default function Work() {
               <button
                 type="button"
                 className="work__card"
+                data-analytics-id={`project-${project.id}`}
+                data-analytics-surface="work"
                 onClick={() => {
                   playClick();
                   setOpen(project);
@@ -110,6 +112,8 @@ export default function Work() {
 
         <a
           className="work__all"
+          data-analytics-id="github-projects"
+          data-analytics-surface="work"
           href={githubUrl}
           target="_blank"
           rel="noreferrer noopener"
@@ -196,6 +200,8 @@ function CaseStudy({
                 className="case__close"
                 onClick={onClose}
                 aria-label="Close case study"
+                data-analytics-id="case-study-close"
+                data-analytics-surface="case-study"
                 autoFocus
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -243,6 +249,8 @@ function CaseStudy({
                     <a
                       key={link.href + link.label}
                       className="case__link"
+                      data-analytics-id={`project-link-${project.id}-${link.kind}`}
+                      data-analytics-surface="case-study"
                       href={link.href}
                       target="_blank"
                       rel="noreferrer noopener"

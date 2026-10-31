@@ -1,10 +1,12 @@
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "./store/AppContext";
 import Navbar from "./components/Navbar/Navbar";
 import Hero from "./components/Hero/Hero";
 import About from "./components/About/About";
 import Experience from "./components/Experience/Experience";
 import Work from "./components/Work/Work";
+import Blog from "./components/Blog/Blog";
 import Skills from "./components/Skills/Skills";
 import Contact from "./components/Contact/Contact";
 import Footer from "./components/Footer/Footer";
@@ -14,16 +16,24 @@ import ThemeToggle from "./components/ThemeToggle/ThemeToggle";
 import Cursor from "./components/Cursor/Cursor";
 import ScrollProgress from "./components/ui/ScrollProgress";
 import AmbientBackground from "./components/ui/AmbientBackground";
+import ClickAnalytics from "./components/Analytics/ClickAnalytics";
 import "./styles/global.scss";
 
 export default function App() {
   return (
     <AppProvider>
-      <a className="skip-link" href="#main">
+      <a
+        className="skip-link"
+        href="#main"
+        data-analytics-id="skip-to-content"
+        data-analytics-surface="app-shell"
+      >
         Skip to content
       </a>
 
       <AmbientBackground />
+      <Analytics />
+      <ClickAnalytics />
       <ScrollProgress />
       <Cursor />
       <Navbar />
@@ -36,6 +46,7 @@ export default function App() {
         <About />
         <Experience />
         <Work />
+        <Blog />
         <Skills />
         <Contact />
       </main>

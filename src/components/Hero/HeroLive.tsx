@@ -26,6 +26,8 @@ export default function HeroLive({ reduced }: { reduced: boolean }) {
       {/* ---- GitHub ---- */}
       <motion.a
         className="hero-live__card"
+        data-analytics-id="github-activity"
+        data-analytics-surface="hero-live"
         href={latest ? latest.url : githubProfile}
         target="_blank"
         rel="noreferrer noopener"
@@ -76,6 +78,8 @@ export default function HeroLive({ reduced }: { reduced: boolean }) {
       {/* ---- Spotify ---- */}
       <motion.a
         className="hero-live__card hero-live__card--spotify"
+        data-analytics-id={track ? "spotify-now-playing" : undefined}
+        data-analytics-surface={track ? "hero-live" : undefined}
         href={track ? track.songUrl : "#"}
         target={track ? "_blank" : undefined}
         rel="noreferrer noopener"

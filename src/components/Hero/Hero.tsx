@@ -85,6 +85,8 @@ export default function Hero() {
         {current && (
           <motion.a
             className="hero__status"
+            data-analytics-id="current-experience"
+            data-analytics-surface="hero"
             variants={pick(riseChild, reduced)}
             href="#experience"
             onClick={(e) => {
@@ -126,6 +128,8 @@ export default function Hero() {
           <button
             type="button"
             className="hero__cta hero__cta--primary"
+            data-analytics-id="see-experience"
+            data-analytics-surface="hero"
             onClick={() => {
               playClick();
               scrollToSection("experience");
@@ -146,6 +150,8 @@ export default function Hero() {
 
           <a
             className="hero__cta hero__cta--ghost"
+            data-analytics-id="contact-email"
+            data-analytics-surface="hero"
             href={`mailto:${profile.email}`}
             onMouseDown={playClick}
           >
@@ -160,6 +166,8 @@ export default function Hero() {
             <li key={social.id}>
               <a
                 className="hero__social"
+                data-analytics-id={`social-${social.id}`}
+                data-analytics-surface="hero"
                 href={social.href}
                 target="_blank"
                 rel="noreferrer noopener"

@@ -79,6 +79,8 @@ export default function Experience() {
                         {role.href ? (
                           <a
                             className="experience__company"
+                            data-analytics-id={`experience-${role.id}`}
+                            data-analytics-surface="experience"
                             href={role.href}
                             target="_blank"
                             rel="noreferrer noopener"
