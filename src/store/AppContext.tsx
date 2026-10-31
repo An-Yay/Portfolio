@@ -121,9 +121,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const root = document.documentElement;
     root.dataset.theme = state.theme;
-    root
-      .querySelector?.("meta[name='theme-color']")
-      ?.setAttribute("content", state.theme === "dark" ? "#0a0a0a" : "#ffffff");
     document
       .querySelector("meta[name='theme-color']")
       ?.setAttribute("content", state.theme === "dark" ? "#0a0a0a" : "#ffffff");

@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import toast from "react-hot-toast";
-import { profile, socials } from "../../data/profile";
+import { socials } from "../../data/profile";
 import { useApp } from "../../store/AppContext";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import useSound from "../../hooks/useSound";
-import resumePdf from "../../assets/documents/Ananay_Resume.pdf";
+import {
+  copyProfileEmail,
+  downloadResume,
+  openExternal,
+} from "../../utils/portfolioActions";
 import "./ContextMenu.scss";
 
 interface Position {
@@ -40,16 +43,6 @@ const LINK =
 const MENU_W = 220;
 const sourceUrl = "https://github.com/An-Yay/Portfolio";
 
-const toastStyle = {
-  border: "1px solid var(--border-subtle)",
-  borderRadius: "14px",
-  background: "var(--bg-elevated)",
-  color: "var(--text-primary)",
-  fontFamily: "var(--font-sans)",
-  fontSize: "14px",
-  boxShadow: "var(--shadow-lg)",
-};
-
 export default function ContextMenu() {
   const { openPalette } = useApp();
   const reduced = useReducedMotion();
@@ -58,11 +51,9 @@ export default function ContextMenu() {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<Position>({ x: 0, y: 0 });
   const menuRef = useRef<HTMLDivElement>(null);
+  const restoreFocusRef = useRef<HTMLElement | null>(null);
 
   const close = useCallback(() => setOpen(false), []);
-
-  const notify = (message: string, icon: string) =>
-    toast(message, { icon, position: "bottom-center", style: toastStyle });
 
   const items: MenuItem[] = [
     {
@@ -76,26 +67,20 @@ export default function ContextMenu() {
       label: "Copy email",
       icon: <Icon d={MAIL} />,
       run: () => {
-        void navigator.clipboard.writeText(profile.email);
-        notify("Email copied", "📧");
+        void copyProfileEmail();
       },
     },
     {
       id: "resume",
       label: "Download resume",
       icon: <Icon d={DOWNLOAD} />,
-      run: () => {
-        const a = document.createElement("a");
-        a.href = resumePdf;
-        a.download = profile.resumeFileName;
-        a.click();
-      },
+      run: downloadResume,
     },
     {
       id: "source",
       label: "View source",
       icon: <Icon d={CODE} />,
-      run: () => window.open(sourceUrl, "_blank", "noopener,noreferrer"),
+      run: () => openExternal(sourceUrl),
     },
   ];
 
@@ -105,7 +90,7 @@ export default function ContextMenu() {
       id: social.id,
       label: social.label,
       icon: <Icon d={LINK} />,
-      run: () => window.open(social.href, "_blank", "noopener,noreferrer"),
+      run: () => openExternal(social.href),
     }));
 
   useEffect(() => {
@@ -115,6 +100,7 @@ export default function ContextMenu() {
       if (target.closest("input, textarea, [contenteditable='true']")) return;
 
       e.preventDefault();
+      restoreFocusRef.current = document.activeElement as HTMLElement | null;
 
       const menuH = 320;
       const x = Math.min(e.clientX, window.innerWidth - MENU_W - 8);
@@ -138,13 +124,37 @@ export default function ContextMenu() {
     };
   }, [close]);
 
-  // Focus the first item when the menu opens for keyboard access.
+  // Focus the first item on open and return focus after dismissal.
   useEffect(() => {
-    if (open) {
-      const first = menuRef.current?.querySelector<HTMLElement>("button");
-      first?.focus();
-    }
+    if (!open) return;
+    const raf = requestAnimationFrame(() => {
+      menuRef.current?.querySelector<HTMLElement>("button")?.focus();
+    });
+    return () => {
+      cancelAnimationFrame(raf);
+      if (restoreFocusRef.current?.isConnected) restoreFocusRef.current.focus();
+    };
   }, [open]);
+
+  const onMenuKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const items = Array.from(
+      menuRef.current?.querySelectorAll<HTMLButtonElement>("[role='menuitem']") ?? []
+    );
+    if (items.length === 0) return;
+
+    const current = Math.max(0, items.indexOf(document.activeElement as HTMLButtonElement));
+    let next: number | null = null;
+    if (event.key === "ArrowDown") next = (current + 1) % items.length;
+    if (event.key === "ArrowUp") next = (current - 1 + items.length) % items.length;
+    if (event.key === "Home") next = 0;
+    if (event.key === "End") next = items.length - 1;
+    if (event.key === "Tab") close();
+
+    if (next !== null) {
+      event.preventDefault();
+      items[next].focus();
+    }
+  };
 
   const run = (item: MenuItem) => {
     playClick();
@@ -177,6 +187,7 @@ export default function ContextMenu() {
             className="context-menu"
             role="menu"
             aria-label="Quick actions"
+            onKeyDown={onMenuKeyDown}
             style={{ left: pos.x, top: pos.y }}
             initial={
               reduced

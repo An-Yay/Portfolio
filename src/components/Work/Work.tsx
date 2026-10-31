@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { projects, type Project } from "../../data/projects";
 import { socials } from "../../data/profile";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import useSound from "../../hooks/useSound";
+import useDialogLifecycle from "../../hooks/useDialogLifecycle";
 import { inView, pick, riseChild, stagger } from "../../utils/motion";
 import SectionHeader from "../ui/SectionHeader";
 import "./Work.scss";
@@ -15,6 +16,7 @@ export default function Work() {
   const reduced = useReducedMotion();
   const playClick = useSound();
   const [open, setOpen] = useState<Project | null>(null);
+  const closeCaseStudy = useCallback(() => setOpen(null), []);
 
   return (
     <section className="work" aria-labelledby="work-heading">
@@ -133,7 +135,7 @@ export default function Work() {
         </a>
       </div>
 
-      <CaseStudy project={open} onClose={() => setOpen(null)} />
+      <CaseStudy project={open} onClose={closeCaseStudy} />
     </section>
   );
 }
@@ -146,20 +148,13 @@ function CaseStudy({
   onClose: () => void;
 }) {
   const reduced = useReducedMotion();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
-  React.useEffect(() => {
-    if (!project) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = previous;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [project, onClose]);
+  useDialogLifecycle(Boolean(project), onClose, {
+    containerRef: panelRef,
+    initialFocusRef: closeRef,
+  });
 
   return (
     <AnimatePresence>
@@ -175,7 +170,9 @@ function CaseStudy({
           />
 
           <motion.div
+            ref={panelRef}
             className="case__panel"
+            tabIndex={-1}
             role="dialog"
             aria-modal="true"
             aria-labelledby="case-title"
@@ -196,13 +193,13 @@ function CaseStudy({
                 </h2>
               </div>
               <button
+                ref={closeRef}
                 type="button"
                 className="case__close"
                 onClick={onClose}
                 aria-label="Close case study"
                 data-analytics-id="case-study-close"
                 data-analytics-surface="case-study"
-                autoFocus
               >
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                   <path

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { navItems, sectionIds } from "../../data/navigation";
 import { profile } from "../../data/profile";
@@ -6,6 +6,7 @@ import { useApp } from "../../store/AppContext";
 import useActiveSection from "../../hooks/useActiveSection";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import useSound from "../../hooks/useSound";
+import useDialogLifecycle from "../../hooks/useDialogLifecycle";
 import scrollToSection from "../../utils/scrollToSection";
 import "./Navbar.scss";
 
@@ -14,6 +15,14 @@ export default function Navbar() {
   const active = useActiveSection(sectionIds);
   const reduced = useReducedMotion();
   const playClick = useSound();
+  const brandRef = useRef<HTMLButtonElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const firstMenuItemRef = useRef<HTMLButtonElement>(null);
+
+  useDialogLifecycle(state.menuOpen, closeMenu, {
+    containerRef: sheetRef,
+    initialFocusRef: firstMenuItemRef,
+  });
 
   const go = (id: string) => {
     playClick();
@@ -21,22 +30,17 @@ export default function Navbar() {
     scrollToSection(id);
   };
 
-  // Lock scroll and allow Escape to dismiss while the mobile sheet is open.
+  // Close the mobile-only sheet if the viewport crosses into desktop layout.
   useEffect(() => {
-    if (!state.menuOpen) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeMenu();
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const onChange = (event: MediaQueryListEvent) => {
+      if (!event.matches) return;
+      closeMenu();
+      requestAnimationFrame(() => brandRef.current?.focus());
     };
-    window.addEventListener("keydown", onKey);
-
-    return () => {
-      document.body.style.overflow = previous;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [state.menuOpen, closeMenu]);
+    desktop.addEventListener("change", onChange);
+    return () => desktop.removeEventListener("change", onChange);
+  }, [closeMenu]);
 
   return (
     <>
@@ -55,6 +59,7 @@ export default function Navbar() {
         >
         <nav className="nav__inner" aria-label="Primary">
           <button
+            ref={brandRef}
             type="button"
             className="nav__brand"
             onClick={() => go("hero")}
@@ -159,8 +164,10 @@ export default function Navbar() {
               onClick={closeMenu}
             />
             <motion.div
+              ref={sheetRef}
               className="nav__sheet"
               id="mobile-menu"
+              tabIndex={-1}
               role="dialog"
               aria-modal="true"
               aria-label="Navigation menu"
@@ -175,9 +182,10 @@ export default function Navbar() {
             >
               <div className="nav__sheet-grip" aria-hidden="true" />
               <ul className="nav__sheet-list">
-                {navItems.map((item) => (
+                {navItems.map((item, index) => (
                   <li key={item.id}>
                     <button
+                      ref={index === 0 ? firstMenuItemRef : undefined}
                       type="button"
                       className={`nav__sheet-link${
                         active === item.id ? " is-active" : ""

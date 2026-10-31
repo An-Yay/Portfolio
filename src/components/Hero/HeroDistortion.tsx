@@ -44,7 +44,7 @@ function Lens({ pointer }: { pointer: React.RefObject<THREE.Vector2> }) {
 
   return (
     <mesh ref={ref} position={[0, 0, 2]}>
-      <sphereGeometry args={[1.8, 64, 64]} />
+      <sphereGeometry args={[1.8, 32, 32]} />
       <MeshTransmissionMaterial
         thickness={2.5}
         roughness={0}
@@ -55,7 +55,6 @@ function Lens({ pointer }: { pointer: React.RefObject<THREE.Vector2> }) {
         distortion={1.2}
         distortionScale={0.6}
         temporalDistortion={0.35}
-        backside
       />
     </mesh>
   );
@@ -98,8 +97,10 @@ function Scene({
 }
 
 export default function HeroDistortion() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const pointer = useRef(new THREE.Vector2(0, 0));
   const [textColor, setTextColor] = useState("#111111");
+  const [active, setActive] = useState(true);
 
   // Match the refracted text to the current theme.
   useEffect(() => {
@@ -117,6 +118,29 @@ export default function HeroDistortion() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return;
+
+    let intersects = true;
+    const update = () => setActive(intersects && document.visibilityState === "visible");
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        intersects = entry.isIntersecting;
+        update();
+      },
+      { rootMargin: "150px" }
+    );
+    observer.observe(element);
+    document.addEventListener("visibilitychange", update);
+    update();
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", update);
+    };
+  }, []);
+
   const onPointerMove = (e: React.PointerEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
     pointer.current.set(
@@ -127,13 +151,15 @@ export default function HeroDistortion() {
 
   return (
     <div
+      ref={containerRef}
       className="hero-distortion"
       aria-hidden="true"
       onPointerMove={onPointerMove}
     >
       <Canvas
         camera={{ position: [0, 0, 7], fov: 42 }}
-        dpr={[1, 1.5]}
+        dpr={[1, 1.25]}
+        frameloop={active ? "always" : "never"}
         gl={{ antialias: true, alpha: true }}
       >
         <Scene pointer={pointer} color={textColor} />

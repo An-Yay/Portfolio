@@ -1,14 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import toast from "react-hot-toast";
 import { navItems } from "../../data/navigation";
 import { profile, socials } from "../../data/profile";
 import { useApp } from "../../store/AppContext";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import useSound from "../../hooks/useSound";
+import useDialogLifecycle from "../../hooks/useDialogLifecycle";
 import scrollToSection from "../../utils/scrollToSection";
+import {
+  copyProfileEmail,
+  downloadResume,
+  openExternal,
+} from "../../utils/portfolioActions";
 import { trackInteraction } from "../Analytics/ClickAnalytics";
-import resumePdf from "../../assets/documents/Ananay_Resume.pdf";
 import "./CommandPalette.scss";
 
 interface Command {
@@ -50,26 +54,12 @@ export default function CommandPalette() {
   const [index, setIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
-  const restoreFocusRef = useRef<HTMLElement | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
-  const notify = useCallback(
-    (message: string, icon: string) => {
-      toast(message, {
-        icon,
-        position: "bottom-center",
-        style: {
-          border: "1px solid var(--border-subtle)",
-          borderRadius: "14px",
-          background: "var(--bg-elevated)",
-          color: "var(--text-primary)",
-          fontFamily: "var(--font-sans)",
-          fontSize: "14px",
-          boxShadow: "var(--shadow-lg)",
-        },
-      });
-    },
-    []
-  );
+  useDialogLifecycle(state.paletteOpen, closePalette, {
+    containerRef: panelRef,
+    initialFocusRef: inputRef,
+  });
 
   const commands = useMemo<Command[]>(() => {
     const nav: Command[] = navItems.map((item) => ({
@@ -108,8 +98,7 @@ export default function CommandPalette() {
         keywords: "email mail copy contact reach",
         icon: <Icon d={MAIL} />,
         run: () => {
-          void navigator.clipboard.writeText(profile.email);
-          notify("Email copied", "📧");
+          void copyProfileEmail();
         },
       },
       {
@@ -119,12 +108,7 @@ export default function CommandPalette() {
         group: "Actions",
         keywords: "resume cv download pdf hire",
         icon: <Icon d={DOWNLOAD} />,
-        run: () => {
-          const a = document.createElement("a");
-          a.href = resumePdf;
-          a.download = profile.resumeFileName;
-          a.click();
-        },
+        run: downloadResume,
       },
     ];
 
@@ -135,11 +119,11 @@ export default function CommandPalette() {
       group: "Links",
       keywords: `${social.label} ${social.handle} profile social open`,
       icon: <Icon d={LINK} />,
-      run: () => window.open(social.href, "_blank", "noopener,noreferrer"),
+      run: () => openExternal(social.href),
     }));
 
     return [...nav, ...actions, ...links];
-  }, [isDark, state.sounds, toggleTheme, toggleSounds, notify]);
+  }, [isDark, state.sounds, toggleTheme, toggleSounds]);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -171,21 +155,11 @@ export default function CommandPalette() {
     return () => window.removeEventListener("keydown", onKey);
   }, [togglePalette]);
 
-  // Reset and focus on open; restore focus to the trigger on close.
+  // Reset search state whenever the palette opens.
   useEffect(() => {
-    if (state.paletteOpen) {
-      restoreFocusRef.current = document.activeElement as HTMLElement;
-      setQuery("");
-      setIndex(0);
-      const raf = requestAnimationFrame(() => inputRef.current?.focus());
-      const previous = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        cancelAnimationFrame(raf);
-        document.body.style.overflow = previous;
-        restoreFocusRef.current?.focus?.();
-      };
-    }
+    if (!state.paletteOpen) return;
+    setQuery("");
+    setIndex(0);
   }, [state.paletteOpen]);
 
   useEffect(() => {
@@ -250,7 +224,9 @@ export default function CommandPalette() {
           />
 
           <motion.div
+            ref={panelRef}
             className="palette__panel"
+            tabIndex={-1}
             role="dialog"
             aria-modal="true"
             aria-label="Command palette"
@@ -314,6 +290,7 @@ export default function CommandPalette() {
                         key={command.id}
                         id={`palette-option-${command.id}`}
                         type="button"
+                        tabIndex={-1}
                         role="option"
                         aria-selected={selected}
                         data-selected={selected}

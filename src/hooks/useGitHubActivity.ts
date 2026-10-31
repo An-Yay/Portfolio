@@ -53,6 +53,7 @@ export default function useGitHubActivity(): GitHubState {
 
   useEffect(() => {
     let cancelled = false;
+    const controller = new AbortController();
 
     const cached = readCache();
     if (cached) {
@@ -63,8 +64,12 @@ export default function useGitHubActivity(): GitHubState {
     const load = async () => {
       try {
         const [userRes, eventsRes] = await Promise.all([
-          fetch(`https://api.github.com/users/${USERNAME}`),
-          fetch(`https://api.github.com/users/${USERNAME}/events/public?per_page=30`),
+          fetch(`https://api.github.com/users/${USERNAME}`, {
+            signal: controller.signal,
+          }),
+          fetch(`https://api.github.com/users/${USERNAME}/events/public?per_page=30`, {
+            signal: controller.signal,
+          }),
         ]);
 
         if (!userRes.ok || !eventsRes.ok) throw new Error("GitHub API error");
@@ -116,6 +121,7 @@ export default function useGitHubActivity(): GitHubState {
     void load();
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, []);
 

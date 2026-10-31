@@ -17,13 +17,11 @@ import Spotlight from "../ui/Spotlight";
 import HeroDistortionLazy from "./HeroDistortionLazy";
 import HeroLive from "./HeroLive";
 import WorkedWith from "./WorkedWith";
+import avatar320 from "../../assets/images/avatar-320.webp";
+import avatar640 from "../../assets/images/avatar-640.webp";
 import "./Hero.scss";
 
-// Vite resolves this to the final hashed asset URL at build time.
-const avatarSrc = new URL(
-  `../../assets/images/${profile.avatar}.png`,
-  import.meta.url
-).href;
+const avatarSrcSet = `${avatar320} 320w, ${avatar640} 640w`;
 
 const MAX_TILT = 12; // degrees
 
@@ -195,11 +193,14 @@ export default function Hero() {
             >
               <img
                 className="hero__avatar"
-                src={avatarSrc}
+                src={avatar640}
+                srcSet={avatarSrcSet}
+                sizes="(min-width: 1024px) 320px, min(34vw, 240px)"
                 alt={`${profile.name}, ${profile.role}`}
-                width={1000}
-                height={1000}
+                width={640}
+                height={640}
                 decoding="async"
+                fetchPriority="high"
               />
               <span className="hero__portrait-ring" aria-hidden="true" />
               {!reduced && (

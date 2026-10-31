@@ -71,6 +71,10 @@
 
 .nav__brand {
   @include m.focusable(2px);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
   border-radius: var(--r-pill);
 }
@@ -177,8 +181,8 @@
   @include m.focusable(2px);
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: var(--bg-inset);
   border: 1px solid var(--border-subtle);

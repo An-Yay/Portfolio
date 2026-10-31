@@ -80,14 +80,12 @@ export default function HeroLive({ reduced }: { reduced: boolean }) {
         className="hero-live__card hero-live__card--spotify"
         data-analytics-id={track ? "spotify-now-playing" : undefined}
         data-analytics-surface={track ? "hero-live" : undefined}
-        href={track ? track.songUrl : "#"}
+        href={track?.songUrl}
         target={track ? "_blank" : undefined}
-        rel="noreferrer noopener"
+        rel={track ? "noreferrer noopener" : undefined}
         variants={pick(riseChild, reduced)}
-        onClick={(e) => {
-          if (!track) e.preventDefault();
-        }}
-        aria-disabled={!track}
+        role={track ? undefined : "status"}
+        aria-live={track ? undefined : "polite"}
       >
         <span className="hero-live__icon hero-live__icon--spotify" aria-hidden="true">
           {track?.albumImageUrl ? (

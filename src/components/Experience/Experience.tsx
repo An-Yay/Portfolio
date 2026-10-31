@@ -14,7 +14,7 @@ import "./Experience.scss";
 
 export default function Experience() {
   const reduced = useReducedMotion();
-  const trackRef = useRef<HTMLOListElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   // Progress of the timeline rail, driven by how far the list has scrolled past.
   const { scrollYProgress } = useScroll({
@@ -39,13 +39,15 @@ export default function Experience() {
           headingId="experience-heading"
         />
 
-        <ol className="experience__track" ref={trackRef}>
+        <div className="experience__timeline" ref={trackRef}>
           <div className="experience__rail" aria-hidden="true">
             <motion.div
               className="experience__rail-fill"
               style={reduced ? { scaleY: 1 } : { scaleY: railScale }}
             />
           </div>
+
+          <ol className="experience__track">
 
           {experience.map((role) => {
             const isCurrent = role.end === null;
@@ -180,7 +182,8 @@ export default function Experience() {
               </motion.li>
             );
           })}
-        </ol>
+          </ol>
+        </div>
       </div>
     </section>
   );

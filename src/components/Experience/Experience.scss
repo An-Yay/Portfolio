@@ -13,7 +13,7 @@
   visibility: hidden;
 }
 
-.experience__track {
+.experience__timeline {
   position: relative;
   margin-top: clamp(2.5rem, 5vw, 4rem);
   padding-left: 0;
@@ -21,6 +21,10 @@
   @include m.above(md) {
     padding-left: 3.25rem;
   }
+}
+
+.experience__track {
+  position: relative;
 }
 
 /* ---- Timeline rail ---- */

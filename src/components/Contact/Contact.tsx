@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
 import toast from "react-hot-toast";
 import { profile, socials } from "../../data/profile";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import useSound from "../../hooks/useSound";
 import { inView, pick, rise } from "../../utils/motion";
+import { copyProfileEmail, toastOptions } from "../../utils/portfolioActions";
 import SectionHeader from "../ui/SectionHeader";
 import resumePdf from "../../assets/documents/Ananay_Resume.pdf";
 import "./Contact.scss";
@@ -19,16 +19,6 @@ interface Errors {
   email?: string;
   message?: string;
 }
-
-const toastStyle = {
-  border: "1px solid var(--border-subtle)",
-  borderRadius: "14px",
-  background: "var(--bg-elevated)",
-  color: "var(--text-primary)",
-  fontFamily: "var(--font-sans)",
-  fontSize: "14px",
-  boxShadow: "var(--shadow-lg)",
-};
 
 export default function Contact() {
   const reduced = useReducedMotion();
@@ -79,13 +69,14 @@ export default function Contact() {
     if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
       toast.error(
         "Email isn't configured yet. Please reach out directly instead.",
-        { position: "bottom-center", style: toastStyle }
+        { ...toastOptions }
       );
       return;
     }
 
     setStatus("sending");
     try {
+      const { default: emailjs } = await import("@emailjs/browser");
       await emailjs.send(
         SERVICE_ID,
         TEMPLATE_ID,
@@ -98,27 +89,19 @@ export default function Contact() {
       );
       setStatus("sent");
       setValues({ name: "", email: "", message: "" });
-      toast.success("Message sent. I'll get back to you soon.", {
-        position: "bottom-center",
-        style: toastStyle,
-      });
+      toast.success("Message sent. I'll get back to you soon.", toastOptions);
     } catch {
       setStatus("idle");
       toast.error(
         `Couldn't send that. Email me directly at ${profile.email}.`,
-        { position: "bottom-center", style: toastStyle }
+        { ...toastOptions }
       );
     }
   };
 
   const copyEmail = () => {
     playClick();
-    void navigator.clipboard.writeText(profile.email);
-    toast("Email copied", {
-      icon: "📧",
-      position: "bottom-center",
-      style: toastStyle,
-    });
+    void copyProfileEmail();
   };
 
   return (

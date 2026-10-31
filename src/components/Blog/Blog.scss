@@ -250,6 +250,7 @@
   width: 100%;
   max-width: var(--container-narrow);
   max-height: min(90vh, 54rem);
+  max-height: min(90dvh, 54rem);
   overflow-y: auto;
   padding: clamp(1.5rem, 5vw, 4rem);
   border: 1px solid var(--border-default);
@@ -360,6 +361,7 @@
 
   .article__panel {
     max-height: calc(100vh - var(--sp-4));
+    max-height: calc(100dvh - var(--sp-4) - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     border-radius: var(--r-lg);
   }
 }

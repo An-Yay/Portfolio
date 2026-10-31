@@ -26,7 +26,16 @@ export default function HeroDistortionLazy() {
     const wideEnough = window.matchMedia(
       `(min-width: ${DESKTOP_MIN}px)`
     ).matches;
-    if (!wideEnough) return;
+    const connection = (
+      navigator as Navigator & {
+        connection?: { saveData?: boolean; effectiveType?: string };
+      }
+    ).connection;
+    const constrainedConnection =
+      connection?.saveData ||
+      connection?.effectiveType === "slow-2g" ||
+      connection?.effectiveType === "2g";
+    if (!wideEnough || constrainedConnection) return;
 
     // Defer to idle time so the 3D bundle never competes with first paint.
     const idle = (

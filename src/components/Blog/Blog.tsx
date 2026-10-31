@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { publishedPosts, type BlogPost } from "../../data/posts";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import useSound from "../../hooks/useSound";
+import useDialogLifecycle from "../../hooks/useDialogLifecycle";
 import { inView, pick, riseChild, stagger } from "../../utils/motion";
 import SectionHeader from "../ui/SectionHeader";
 import "./Blog.scss";
@@ -163,31 +164,13 @@ function ArticleDialog({
   onClose: () => void;
 }) {
   const reduced = useReducedMotion();
+  const panelRef = useRef<HTMLElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    if (!post) return;
-
-    const previousOverflow = document.body.style.overflow;
-    const previousFocus = document.activeElement as HTMLElement | null;
-    document.body.style.overflow = "hidden";
-    closeRef.current?.focus();
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-      if (event.key === "Tab") {
-        event.preventDefault();
-        closeRef.current?.focus();
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-      previousFocus?.focus();
-    };
-  }, [post, onClose]);
+  useDialogLifecycle(Boolean(post), onClose, {
+    containerRef: panelRef,
+    initialFocusRef: closeRef,
+  });
 
   return (
     <AnimatePresence>
@@ -204,7 +187,9 @@ function ArticleDialog({
           />
 
           <motion.article
+            ref={panelRef}
             className="article__panel"
+            tabIndex={-1}
             role="dialog"
             aria-modal="true"
             aria-labelledby="article-title"
